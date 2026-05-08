@@ -135,7 +135,7 @@ export default function Landing() {
             <div className="h-px w-12 bg-gradient-to-r from-transparent to-slate-400/50" />
             <div className="text-center">
               <p
-                className="text-[22px] font-semibold italic leading-tight text-slate-800 tracking-tight"
+                className="text-grad-motion text-[24px] font-semibold leading-tight tracking-tight"
                 style={{ fontFamily: "var(--font-serif)" }}
               >
                 Troy Michael Rasch

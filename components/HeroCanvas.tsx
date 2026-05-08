@@ -27,9 +27,9 @@ export default function HeroCanvas() {
     let animId: number;
     let t = 0;
 
-    const COLS = 10;
-    const ROWS = 6;
-    const DEPTH = 3;
+    const COLS = 13;
+    const ROWS = 7;
+    const DEPTH = 4;
 
     const nodes: Node3D[] = [];
     const edges: [number, number][] = [];
@@ -59,7 +59,7 @@ export default function HeroCanvas() {
           }
         }
       }
-      for (let i = 0; i < 60; i++) {
+      for (let i = 0; i < 80; i++) {
         const ei = Math.floor(Math.random() * edges.length);
         particles.push({
           fromIdx: edges[ei][0],
@@ -83,7 +83,8 @@ export default function HeroCanvas() {
       const fov = 2.4;
       const z = rz2 + fov;
       const scale = fov / z;
-      const span = Math.min(W, H) * 0.40;
+      // Wider span: fills full hero width on landscape screens
+      const span = Math.max(W * 0.32, Math.min(W, H) * 0.40);
       return {
         px: W / 2 + rx * scale * span,
         py: H / 2 + ry * scale * span,
