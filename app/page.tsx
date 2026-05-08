@@ -75,10 +75,34 @@ const pillars = [
 ];
 
 const trust = [
-  { icon: Lock,         label: "SOC 2 Ready",       sub: "Role-based access controls" },
-  { icon: BarChart3,    label: "Real-time Metrics",  sub: "Live enrollment & audit data" },
-  { icon: Globe,        label: "Multi-site Support", sub: "MN, WI, ND coverage" },
-  { icon: CheckCircle2, label: "DOL / IRS Aligned",  sub: "Current regulatory mapping" },
+  {
+    icon: Lock,
+    label: "SOC 2 Ready",
+    sub: "Role-based access controls, full audit logging, and session management protect every record.",
+    metric: "256-bit",
+    metricLabel: "AES encryption",
+  },
+  {
+    icon: BarChart3,
+    label: "Real-time Metrics",
+    sub: "Live enrollment counts, compliance flags, and carrier SLA status — continuously synchronized.",
+    metric: "< 1s",
+    metricLabel: "data latency",
+  },
+  {
+    icon: Globe,
+    label: "Multi-site Support",
+    sub: "Unified compliance view across all ALLETE operating locations in three states.",
+    metric: "3 states",
+    metricLabel: "MN · WI · ND",
+  },
+  {
+    icon: CheckCircle2,
+    label: "DOL / IRS Aligned",
+    sub: "Continuously mapped to current DOL and IRS guidance across all active benefit regulations.",
+    metric: "14+",
+    metricLabel: "regulations tracked",
+  },
 ];
 
 function ScoreArc({ score, color }: { score: number; color: string }) {
@@ -354,20 +378,35 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Trust strip */}
-      <section className="bg-white py-16 px-6 border-y border-slate-100">
+      {/* Trust */}
+      <section className="bg-[#f0f6fd] py-20 px-6">
         <div className="max-w-5xl mx-auto">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-10">
+          <div className="text-center mb-10">
+            <p className="text-[10px] font-mono text-[#0079BE] uppercase tracking-[0.2em] mb-3">Platform Trust</p>
+            <h2 className="text-3xl font-bold text-slate-900 tracking-tight" style={{ fontFamily: "var(--font-serif)" }}>
+              Built for enterprise compliance
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {trust.map((t) => {
               const Icon = t.icon;
               return (
-                <div key={t.label} className="flex items-center gap-3.5">
-                  <div className="w-10 h-10 rounded-2xl bg-[#0079BE]/9 flex items-center justify-center flex-shrink-0">
-                    <Icon className="w-4.5 h-4.5 text-[#0079BE]" />
+                <div
+                  key={t.label}
+                  className="bg-white rounded-2xl border border-[#dce8f5] p-6 flex flex-col gap-5 hover:shadow-md hover:shadow-[#0079BE]/8 hover:border-[#0079BE]/30 transition-all duration-200"
+                >
+                  <div className="flex items-start justify-between">
+                    <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#0079BE]/12 to-[#00B0CA]/8 flex items-center justify-center flex-shrink-0">
+                      <Icon className="w-5 h-5 text-[#0079BE]" />
+                    </div>
+                    <div className="text-right">
+                      <p className="text-[17px] font-bold text-[#0079BE] leading-none tracking-tight" style={{ fontFamily: "var(--font-mono)" }}>{t.metric}</p>
+                      <p className="text-[9px] text-slate-400 mt-0.5 uppercase tracking-wide leading-tight">{t.metricLabel}</p>
+                    </div>
                   </div>
                   <div>
-                    <p className="text-[13px] font-semibold text-slate-900 tracking-tight">{t.label}</p>
-                    <p className="text-[11px] text-slate-400 mt-0.5">{t.sub}</p>
+                    <p className="text-[13px] font-semibold text-slate-900 mb-2 tracking-tight">{t.label}</p>
+                    <p className="text-[12px] text-slate-500 leading-relaxed">{t.sub}</p>
                   </div>
                 </div>
               );
