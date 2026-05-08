@@ -188,13 +188,74 @@ export default function Landing() {
             </Link>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-10 border-t border-slate-100 pt-8">
-            {stats.map((s, i) => (
-              <div key={i} className="text-center">
-                <p className="text-2xl font-bold text-slate-900" style={{ fontFamily: "var(--font-mono)" }}>{s.value}</p>
-                <p className="text-xs text-slate-400 mt-0.5">{s.label}</p>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 w-full max-w-3xl mx-auto">
+
+            {/* Employees */}
+            <div className="bg-white/50 backdrop-blur-sm rounded-2xl border border-white/70 p-5 text-left shadow-sm">
+              <div className="flex flex-wrap gap-[3px] mb-4 w-[52px]">
+                {Array.from({ length: 12 }).map((_, i) => (
+                  <div key={i} className={`w-[9px] h-[9px] rounded-full ${i < 10 ? "bg-[#1a6b3c]" : "bg-slate-300"}`} />
+                ))}
               </div>
-            ))}
+              <p className="text-3xl font-bold bg-gradient-to-r from-[#1a6b3c] to-[#0d9488] bg-clip-text text-transparent" style={{ fontFamily: "var(--font-mono)" }}>1,842</p>
+              <p className="text-xs text-slate-600 mt-1 font-medium">Eligible Employees</p>
+              <p className="text-[10px] text-emerald-600 mt-1 font-semibold">+14 this month</p>
+            </div>
+
+            {/* Compliance Score */}
+            <div className="bg-white/50 backdrop-blur-sm rounded-2xl border border-white/70 p-5 text-left shadow-sm">
+              <div className="flex items-start justify-between mb-1">
+                <div className="flex-1 min-w-0">
+                  <p className="text-3xl font-bold bg-gradient-to-r from-[#1a6b3c] to-[#0d9488] bg-clip-text text-transparent" style={{ fontFamily: "var(--font-mono)" }}>94%</p>
+                  <p className="text-xs text-slate-600 mt-1 font-medium">Compliance Score</p>
+                  <p className="text-[10px] text-emerald-600 mt-1 font-semibold">+2.1% vs last qtr</p>
+                </div>
+                <svg width="40" height="40" viewBox="0 0 40 40" className="-rotate-90 flex-shrink-0 mt-0.5">
+                  <circle cx="20" cy="20" r="16" fill="none" stroke="#e2e8f0" strokeWidth="4" />
+                  <circle cx="20" cy="20" r="16" fill="none" stroke="#1a6b3c" strokeWidth="4"
+                    strokeLinecap="round"
+                    strokeDasharray={`${2 * Math.PI * 16 * 0.94} ${2 * Math.PI * 16}`} />
+                </svg>
+              </div>
+            </div>
+
+            {/* Benefit Plans */}
+            <div className="bg-white/50 backdrop-blur-sm rounded-2xl border border-white/70 p-5 text-left shadow-sm">
+              <div className="grid grid-cols-4 gap-1 mb-4 w-fit">
+                {["Medical", "Dental", "Vision", "Life", "401k", "FSA", "COBRA", "LTD"].map((plan, i) => (
+                  <div
+                    key={plan}
+                    title={plan}
+                    className={`w-3 h-3 rounded-sm ${i === 7 ? "bg-amber-400" : "bg-[#1a6b3c]"}`}
+                  />
+                ))}
+              </div>
+              <p className="text-3xl font-bold bg-gradient-to-r from-[#1a6b3c] to-[#0d9488] bg-clip-text text-transparent" style={{ fontFamily: "var(--font-mono)" }}>8</p>
+              <p className="text-xs text-slate-600 mt-1 font-medium">Benefit Plans</p>
+              <p className="text-[10px] text-slate-400 mt-1">Plan Year 2026</p>
+            </div>
+
+            {/* Deadlines */}
+            <div className="bg-white/50 backdrop-blur-sm rounded-2xl border border-white/70 p-5 text-left shadow-sm">
+              <div className="flex flex-col gap-1 mb-4">
+                {[
+                  { date: "Jun 30", hot: true },
+                  { date: "Jul 15", hot: false },
+                  { date: "Aug 1",  hot: false },
+                ].map((d) => (
+                  <span key={d.date} className={`inline-flex items-center gap-1 text-[9px] px-1.5 py-0.5 rounded font-mono font-semibold w-fit ${
+                    d.hot ? "bg-amber-100 text-amber-700 border border-amber-200" : "bg-slate-100 text-slate-500 border border-slate-200"
+                  }`}>
+                    {d.hot && <span className="w-1 h-1 rounded-full bg-amber-500 inline-block" />}
+                    {d.date}
+                  </span>
+                ))}
+              </div>
+              <p className="text-3xl font-bold bg-gradient-to-r from-amber-500 to-orange-400 bg-clip-text text-transparent" style={{ fontFamily: "var(--font-mono)" }}>3</p>
+              <p className="text-xs text-slate-600 mt-1 font-medium">Deadlines This Quarter</p>
+              <p className="text-[10px] text-amber-600 mt-1 font-semibold">Next: Jun 30</p>
+            </div>
+
           </div>
         </div>
 
