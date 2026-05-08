@@ -26,10 +26,10 @@ export default function Sidebar() {
     <aside className="w-60 flex-shrink-0 bg-white border-r border-slate-200 flex flex-col h-screen sticky top-0">
       {/* Logo */}
       <div className="px-5 py-5 border-b border-slate-200">
-        <div>
+        <Link href="/" className="block hover:opacity-75 transition-opacity">
           <p className="text-sm font-bold text-slate-900 leading-tight">TMR Benefits</p>
           <p className="text-[10px] text-slate-500 leading-tight uppercase tracking-wide">ALLETE Compliance</p>
-        </div>
+        </Link>
       </div>
 
       {/* Nav */}
