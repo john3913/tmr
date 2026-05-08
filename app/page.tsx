@@ -109,7 +109,7 @@ export default function Landing() {
       >
         <div className="flex items-center gap-3">
           <span className="text-sm font-semibold tracking-tight text-slate-900">TMR Benefits</span>
-          <span className="text-[9px] px-2 py-0.5 rounded-full bg-[#1a6b3c]/8 text-[#1a6b3c] font-mono tracking-widest uppercase">
+          <span className="text-[9px] px-2 py-0.5 rounded-full bg-[#0079BE]/10 text-[#0079BE] font-mono tracking-widest uppercase">
             ALLETE
           </span>
         </div>
@@ -256,10 +256,10 @@ export default function Landing() {
       </section>
 
       {/* Features */}
-      <section className="bg-white py-28 px-6">
+      <section className="bg-[#f0f6fd] py-28 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <p className="text-[10px] font-mono text-[#1a6b3c] uppercase tracking-[0.2em] mb-4">Full Suite</p>
+            <p className="text-[10px] font-mono text-[#0079BE] uppercase tracking-[0.2em] mb-4">Full Suite</p>
             <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 tracking-tight" style={{ fontFamily: "var(--font-serif)" }}>
               Everything your benefits<br className="hidden sm:block" /> team needs
             </h2>
@@ -313,12 +313,12 @@ export default function Landing() {
       </section>
 
       {/* Compliance Pillars */}
-      <section className="bg-slate-950 py-28 px-6 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_50%,rgba(26,107,60,0.07),transparent)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_40%_at_80%_20%,rgba(13,148,136,0.05),transparent)]" />
+      <section className="bg-[#002b49] py-28 px-6 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_50%,rgba(0,121,190,0.12),transparent)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_40%_at_80%_20%,rgba(0,176,202,0.08),transparent)]" />
         <div className="max-w-6xl mx-auto relative">
           <div className="text-center mb-16">
-            <p className="text-[10px] font-mono text-emerald-400 uppercase tracking-[0.2em] mb-4">Regulatory Coverage</p>
+            <p className="text-[10px] font-mono text-[#00B0CA] uppercase tracking-[0.2em] mb-4">Regulatory Coverage</p>
             <h2 className="text-4xl sm:text-5xl font-bold text-white tracking-tight" style={{ fontFamily: "var(--font-serif)" }}>
               Full-spectrum compliance
             </h2>
@@ -331,7 +331,7 @@ export default function Landing() {
             {pillars.map((p) => (
               <div
                 key={p.abbr}
-                className="bg-white/[0.03] rounded-3xl border border-white/[0.07] p-6 hover:border-white/12 hover:bg-white/[0.05] transition-all duration-200"
+                className="bg-white/[0.03] rounded-3xl border border-white/[0.07] p-6 hover:border-[#0079BE]/30 hover:bg-[#0079BE]/[0.04] transition-all duration-200"
               >
                 <div className="flex items-start justify-between mb-6">
                   <div>
@@ -362,8 +362,8 @@ export default function Landing() {
               const Icon = t.icon;
               return (
                 <div key={t.label} className="flex items-center gap-3.5">
-                  <div className="w-10 h-10 rounded-2xl bg-[#1a6b3c]/7 flex items-center justify-center flex-shrink-0">
-                    <Icon className="w-4.5 h-4.5 text-[#1a6b3c]" />
+                  <div className="w-10 h-10 rounded-2xl bg-[#0079BE]/9 flex items-center justify-center flex-shrink-0">
+                    <Icon className="w-4.5 h-4.5 text-[#0079BE]" />
                   </div>
                   <div>
                     <p className="text-[13px] font-semibold text-slate-900 tracking-tight">{t.label}</p>
@@ -388,7 +388,7 @@ export default function Landing() {
           <rect width="100%" height="100%" fill="url(#cta-grid)" />
         </svg>
         <div className="relative max-w-2xl mx-auto text-center">
-          <p className="text-[10px] font-mono text-emerald-400/80 uppercase tracking-[0.2em] mb-5">ALLETE Benefits Team</p>
+          <p className="text-[10px] font-mono text-[#00B0CA]/90 uppercase tracking-[0.2em] mb-5">ALLETE Benefits Team</p>
           <h2
             className="text-4xl sm:text-5xl font-bold text-white mb-5 tracking-tight"
             style={{ fontFamily: "var(--font-serif)" }}
@@ -408,17 +408,17 @@ export default function Landing() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-slate-950 border-t border-white/5 py-9 px-6">
+      <footer className="bg-[#2d3f52] border-t border-white/8 py-9 px-6">
         <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-4">
           <div>
-            <span className="text-[13px] font-semibold text-slate-400">TMR Benefits</span>
-            <span className="text-slate-700 mx-2">·</span>
-            <span className="text-[12px] text-slate-600">ALLETE Internal Platform</span>
+            <span className="text-[13px] font-semibold text-white/70">TMR Benefits</span>
+            <span className="text-white/25 mx-2">·</span>
+            <span className="text-[12px] text-white/45">ALLETE Internal Platform</span>
           </div>
           <div className="flex items-center gap-4">
-            <p className="text-[11px] text-slate-700 font-mono">Troy Michael Rasch</p>
-            <span className="text-slate-800">·</span>
-            <p className="text-[11px] text-slate-700 font-mono">Plan Year 2026</p>
+            <p className="text-[11px] text-white/40 font-mono">Troy Michael Rasch</p>
+            <span className="text-white/20">·</span>
+            <p className="text-[11px] text-white/40 font-mono">Plan Year 2026</p>
           </div>
         </div>
       </footer>

@@ -155,8 +155,8 @@ export default function HeroCanvas() {
         // Outer teal glow
         const glowR = 10;
         const glow = c.createRadialGradient(px, py, 0, px, py, glowR);
-        glow.addColorStop(0, `rgba(13,148,136,${(alpha * 0.35).toFixed(3)})`);
-        glow.addColorStop(1, `rgba(13,148,136,0)`);
+        glow.addColorStop(0, `rgba(0,176,202,${(alpha * 0.40).toFixed(3)})`);
+        glow.addColorStop(1, `rgba(0,176,202,0)`);
         c.beginPath();
         c.arc(px, py, glowR, 0, Math.PI * 2);
         c.fillStyle = glow;

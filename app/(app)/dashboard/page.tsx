@@ -35,8 +35,8 @@ const statCards = [
     change: "+14 this month",
     positive: true,
     icon: Users,
-    color: "text-blue-600",
-    bg: "bg-blue-50",
+    color: "text-[#0079BE]",
+    bg: "bg-[#0079BE]/10",
   },
   {
     label: "Upcoming Deadlines",
@@ -44,8 +44,8 @@ const statCards = [
     change: "Next: Jun 30, 2026",
     positive: null,
     icon: Clock,
-    color: "text-violet-600",
-    bg: "bg-violet-50",
+    color: "text-[#005294]",
+    bg: "bg-[#005294]/10",
   },
 ];
 
@@ -202,7 +202,7 @@ export default function Dashboard() {
                 <div className="flex-1 min-w-0">
                   <p className="text-xs font-semibold text-slate-900 leading-snug">{d.title}</p>
                   <div className="flex items-center gap-2 mt-1.5">
-                    <span className="text-[10px] px-1.5 py-0.5 bg-[#1a6b3c]/10 text-[#1a6b3c] rounded font-medium">{d.type}</span>
+                    <span className="text-[10px] px-1.5 py-0.5 bg-[#0079BE]/10 text-[#0079BE] rounded font-medium">{d.type}</span>
                     <span className="text-[10px] text-slate-500">{d.date}</span>
                   </div>
                 </div>
@@ -244,7 +244,7 @@ export default function Dashboard() {
                     <td className="px-5 py-3 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <div className="w-20 h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                          <div className="h-full bg-[#1a6b3c] rounded-full" style={{ width: `${rate}%` }} />
+                          <div className="h-full bg-[#0079BE] rounded-full" style={{ width: `${rate}%` }} />
                         </div>
                         <span className="text-xs text-slate-600 tabular-nums w-8">{rate}%</span>
                       </div>
