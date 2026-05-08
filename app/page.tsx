@@ -215,40 +215,87 @@ export default function Landing() {
           {/* Stats cards */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 w-full max-w-3xl mx-auto">
 
-            {/* Employees */}
+            {/* Employees — sparkline */}
             <div className="bg-white/55 backdrop-blur-md rounded-2xl border border-white/75 p-5 text-left shadow-sm shadow-slate-400/10">
-              <div className="flex flex-wrap gap-[3px] mb-4 w-[52px]">
-                {Array.from({ length: 12 }).map((_, i) => (
-                  <div key={i} className={`w-[9px] h-[9px] rounded-full ${i < 10 ? "bg-[#1a6b3c]" : "bg-slate-300"}`} />
+              <div className="flex items-end gap-[3px] h-7 mb-4">
+                {[72, 79, 85, 90, 95, 100].map((h, i) => (
+                  <div
+                    key={i}
+                    className="flex-1 rounded-[2px]"
+                    style={{
+                      height: `${h}%`,
+                      background: i === 5
+                        ? "linear-gradient(to top, #0079BE, #00B0CA)"
+                        : `rgba(0,121,190,${0.14 + i * 0.11})`,
+                    }}
+                  />
                 ))}
               </div>
-              <p className="text-3xl font-bold bg-gradient-to-r from-[#1a6b3c] to-[#0d9488] bg-clip-text text-transparent" style={{ fontFamily: "var(--font-mono)" }}>1,842</p>
+              <p className="text-3xl font-bold bg-gradient-to-r from-[#0079BE] to-[#00B0CA] bg-clip-text text-transparent" style={{ fontFamily: "var(--font-mono)" }}>1,842</p>
               <p className="text-xs text-slate-600 mt-1 font-medium">Eligible Employees</p>
-              <p className="text-[10px] text-emerald-600 mt-1 font-semibold">+14 this month</p>
+              <p className="text-[10px] text-[#0079BE] mt-1 font-semibold">+14 this month</p>
             </div>
 
-            {/* Compliance Score */}
+            {/* Compliance Score — gradient arc + sub-score bars */}
             <div className="bg-white/55 backdrop-blur-md rounded-2xl border border-white/75 p-5 text-left shadow-sm shadow-slate-400/10">
-              <div className="flex items-start justify-between mb-1">
-                <div className="flex-1 min-w-0">
-                  <p className="text-3xl font-bold bg-gradient-to-r from-[#1a6b3c] to-[#0d9488] bg-clip-text text-transparent" style={{ fontFamily: "var(--font-mono)" }}>94%</p>
-                  <p className="text-xs text-slate-600 mt-1 font-medium">Compliance Score</p>
-                  <p className="text-[10px] text-emerald-600 mt-1 font-semibold">+2.1% vs last qtr</p>
+              <div className="flex items-start gap-2.5 mb-3">
+                <div className="relative w-11 h-11 flex-shrink-0">
+                  <svg viewBox="0 0 44 44" className="w-full h-full -rotate-90">
+                    <defs>
+                      <linearGradient id="arc-g" x1="0" y1="0" x2="44" y2="44" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stopColor="#1a6b3c" />
+                        <stop offset="100%" stopColor="#0079BE" />
+                      </linearGradient>
+                    </defs>
+                    <circle cx="22" cy="22" r="17" fill="none" stroke="#e0eaf6" strokeWidth="4" />
+                    <circle cx="22" cy="22" r="17" fill="none" stroke="url(#arc-g)" strokeWidth="4"
+                      strokeLinecap="round"
+                      strokeDasharray={`${2 * Math.PI * 17 * 0.94} ${2 * Math.PI * 17}`} />
+                  </svg>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-[10px] font-bold text-slate-800">94</span>
+                  </div>
                 </div>
-                <svg width="40" height="40" viewBox="0 0 40 40" className="-rotate-90 flex-shrink-0 mt-0.5">
-                  <circle cx="20" cy="20" r="16" fill="none" stroke="#e2e8f0" strokeWidth="4" />
-                  <circle cx="20" cy="20" r="16" fill="none" stroke="#1a6b3c" strokeWidth="4"
-                    strokeLinecap="round"
-                    strokeDasharray={`${2 * Math.PI * 16 * 0.94} ${2 * Math.PI * 16}`} />
-                </svg>
+                <div className="min-w-0 flex-1">
+                  <p className="text-2xl font-bold bg-gradient-to-r from-[#1a6b3c] to-[#0079BE] bg-clip-text text-transparent leading-none" style={{ fontFamily: "var(--font-mono)" }}>94%</p>
+                  <p className="text-[11px] text-slate-600 mt-0.5 font-medium">Compliance Score</p>
+                  <p className="text-[9px] text-emerald-600 mt-0.5 font-semibold">+2.1% vs last qtr</p>
+                </div>
+              </div>
+              <div className="flex gap-1">
+                {([
+                  { l: "ERISA", v: 98, c: "#1a6b3c" },
+                  { l: "ACA",   v: 91, c: "#0079BE" },
+                  { l: "COBRA", v: 82, c: "#f59e0b" },
+                  { l: "FMLA",  v: 97, c: "#1a6b3c" },
+                ] as { l: string; v: number; c: string }[]).map((s) => (
+                  <div key={s.l} className="flex-1">
+                    <div className="h-[3px] bg-[#e0eaf6] rounded-full overflow-hidden mb-[3px]">
+                      <div className="h-full rounded-full" style={{ width: `${s.v}%`, backgroundColor: s.c }} />
+                    </div>
+                    <p className="text-[7px] text-slate-400 font-mono text-center leading-none">{s.l}</p>
+                  </div>
+                ))}
               </div>
             </div>
 
-            {/* Benefit Plans */}
+            {/* Benefit Plans — named chips */}
             <div className="bg-white/55 backdrop-blur-md rounded-2xl border border-white/75 p-5 text-left shadow-sm shadow-slate-400/10">
-              <div className="grid grid-cols-4 gap-1 mb-4 w-fit">
-                {["Medical", "Dental", "Vision", "Life", "401k", "FSA", "COBRA", "LTD"].map((plan, i) => (
-                  <div key={plan} title={plan} className={`w-3 h-3 rounded-sm ${i === 7 ? "bg-amber-400" : "bg-[#1a6b3c]"}`} />
+              <div className="flex flex-wrap gap-[5px] mb-3">
+                {([
+                  { name: "Medical" }, { name: "Dental"  }, { name: "Vision"  }, { name: "Life"    },
+                  { name: "401k"    }, { name: "FSA"     }, { name: "COBRA", hot: true }, { name: "LTD"  },
+                ] as { name: string; hot?: boolean }[]).map((p) => (
+                  <span
+                    key={p.name}
+                    className={`text-[8px] px-1.5 py-[3px] rounded font-semibold border leading-none ${
+                      p.hot
+                        ? "bg-amber-50 text-amber-700 border-amber-200"
+                        : "bg-[#0079BE]/7 text-[#0079BE] border-[#0079BE]/15"
+                    }`}
+                  >
+                    {p.name}
+                  </span>
                 ))}
               </div>
               <p className="text-3xl font-bold bg-gradient-to-r from-[#1a6b3c] to-[#0d9488] bg-clip-text text-transparent" style={{ fontFamily: "var(--font-mono)" }}>8</p>
@@ -256,21 +303,21 @@ export default function Landing() {
               <p className="text-[10px] text-slate-400 mt-1">Plan Year 2026</p>
             </div>
 
-            {/* Deadlines */}
+            {/* Deadlines — proportional timeline */}
             <div className="bg-white/55 backdrop-blur-md rounded-2xl border border-white/75 p-5 text-left shadow-sm shadow-slate-400/10">
-              <div className="flex flex-col gap-1 mb-4">
-                {[{ date: "Jun 30", hot: true }, { date: "Jul 15", hot: false }, { date: "Aug 1", hot: false }].map((d) => (
-                  <span key={d.date} className={`inline-flex items-center gap-1 text-[9px] px-1.5 py-0.5 rounded font-mono font-semibold w-fit ${
-                    d.hot ? "bg-amber-100 text-amber-700 border border-amber-200" : "bg-slate-100 text-slate-500 border border-slate-200"
-                  }`}>
-                    {d.hot && <span className="w-1 h-1 rounded-full bg-amber-500 inline-block" />}
-                    {d.date}
-                  </span>
-                ))}
+              {/* Timeline: 54d to Jun30, 15d gap, 17d to Aug1 */}
+              <div className="flex gap-[3px] mb-[5px]">
+                <div className="h-2 rounded-l-full bg-amber-400" style={{ flex: 54 }} />
+                <div className="h-2 bg-slate-200" style={{ flex: 15 }} />
+                <div className="h-2 rounded-r-full bg-slate-200" style={{ flex: 17 }} />
+              </div>
+              <div className="flex justify-between mb-3">
+                <span className="text-[8px] font-mono text-amber-600 font-semibold">Jun 30</span>
+                <span className="text-[8px] font-mono text-slate-400">Aug 1</span>
               </div>
               <p className="text-3xl font-bold bg-gradient-to-r from-amber-500 to-orange-400 bg-clip-text text-transparent" style={{ fontFamily: "var(--font-mono)" }}>3</p>
               <p className="text-xs text-slate-600 mt-1 font-medium">Deadlines This Quarter</p>
-              <p className="text-[10px] text-amber-600 mt-1 font-semibold">Next: Jun 30</p>
+              <p className="text-[10px] text-amber-600 mt-1 font-semibold">Next in 54 days · Jun 30</p>
             </div>
 
           </div>
