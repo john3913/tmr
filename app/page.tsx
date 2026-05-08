@@ -1,264 +1,372 @@
+import Link from "next/link";
+import HeroCanvas from "@/components/HeroCanvas";
 import {
-  ShieldCheck,
-  AlertTriangle,
-  Clock,
-  Users,
-  CalendarRange,
-  FileText,
-  ChevronRight,
-  ArrowUpRight,
-  TrendingUp,
+  ShieldCheck, CalendarRange, Users, Building2, FileBarChart2,
+  ArrowRight, Zap, CheckCircle2, BarChart3, Lock, Globe,
 } from "lucide-react";
 
-const statCards = [
+const stats = [
+  { value: "1,842", label: "Eligible Employees" },
+  { value: "94%", label: "Compliance Score" },
+  { value: "8", label: "Benefit Plans" },
+  { value: "3", label: "Deadlines This Quarter" },
+];
+
+const features = [
   {
-    label: "Compliance Score",
-    value: "94%",
-    change: "+2.1% vs last quarter",
-    positive: true,
     icon: ShieldCheck,
-    color: "text-[#1a6b3c]",
-    bg: "bg-[#1a6b3c]/10",
+    title: "Benefits Audit",
+    desc: "Track ERISA, ACA, COBRA, and FMLA requirements with real-time compliance checks across all benefit plans.",
+    href: "/audit",
+    color: "from-emerald-500/20 to-emerald-600/5",
+    accent: "text-emerald-400",
+    border: "group-hover:border-emerald-500/40",
   },
   {
-    label: "Open Issues",
-    value: "7",
-    change: "−3 resolved this week",
-    positive: true,
-    icon: AlertTriangle,
-    color: "text-amber-600",
-    bg: "bg-amber-50",
+    icon: CalendarRange,
+    title: "Open Enrollment",
+    desc: "Manage enrollment windows, eligibility rules, plan options, and carrier deadlines in a single unified view.",
+    href: "/enrollment",
+    color: "from-sky-500/20 to-sky-600/5",
+    accent: "text-sky-400",
+    border: "group-hover:border-sky-500/40",
   },
   {
-    label: "Eligible Employees",
-    value: "1,842",
-    change: "+14 this month",
-    positive: true,
     icon: Users,
-    color: "text-blue-600",
-    bg: "bg-blue-50",
+    title: "Employee Directory",
+    desc: "See every employee's benefit elections, COBRA status, and compliance flags at a glance.",
+    href: "/employees",
+    color: "from-violet-500/20 to-violet-600/5",
+    accent: "text-violet-400",
+    border: "group-hover:border-violet-500/40",
   },
   {
-    label: "Upcoming Deadlines",
-    value: "3",
-    change: "Next: Jun 30, 2026",
-    positive: null,
-    icon: Clock,
-    color: "text-violet-600",
-    bg: "bg-violet-50",
+    icon: Building2,
+    title: "Vendors & Carriers",
+    desc: "Monitor SLA performance across all carriers — Blue Cross, Delta, MetLife, Fidelity, WEX, and more.",
+    href: "/vendors",
+    color: "from-amber-500/20 to-amber-600/5",
+    accent: "text-amber-400",
+    border: "group-hover:border-amber-500/40",
+  },
+  {
+    icon: FileBarChart2,
+    title: "Reports & Filings",
+    desc: "Never miss a regulatory deadline. Form 5500, ACA 1094-C/1095-C, PCORI, and SAR — all tracked in one calendar.",
+    href: "/reports",
+    color: "from-rose-500/20 to-rose-600/5",
+    accent: "text-rose-400",
+    border: "group-hover:border-rose-500/40",
   },
 ];
 
-const alerts = [
-  { type: "error", title: "COBRA Notice Overdue", detail: "2 participants past 14-day notice window", time: "2 days ago" },
-  { type: "warning", title: "ACA Filing Deadline Approaching", detail: "Form 1094-C due in 23 days", time: "Today" },
-  { type: "warning", title: "Plan Document Update Required", detail: "Medical Plan SPD needs 2026 amendments", time: "5 days ago" },
-  { type: "success", title: "ERISA Annual Report Filed", detail: "Form 5500 submitted successfully", time: "1 week ago" },
-  { type: "success", title: "Open Enrollment Closed", detail: "1,738 of 1,842 employees enrolled (94.4%)", time: "3 weeks ago" },
+const pillars = [
+  {
+    abbr: "ERISA",
+    name: "Employee Retirement Income Security Act",
+    score: 98,
+    color: "#22c55e",
+    checks: ["Form 5500 filed", "SPDs current", "Fiduciary coverage active"],
+  },
+  {
+    abbr: "ACA",
+    name: "Affordable Care Act",
+    score: 91,
+    color: "#0ea5e9",
+    checks: ["MEC offered to FT staff", "Affordability test passing", "1095-C in progress"],
+  },
+  {
+    abbr: "COBRA",
+    name: "Consolidated Omnibus Budget Reconciliation Act",
+    score: 82,
+    color: "#f59e0b",
+    checks: ["Election notices tracked", "Premium rates verified", "Admin agreement current"],
+  },
+  {
+    abbr: "FMLA",
+    name: "Family and Medical Leave Act",
+    score: 97,
+    color: "#a78bfa",
+    checks: ["Posters posted at all sites", "Policy in handbook", "Designation notices sent"],
+  },
 ];
 
-const plans = [
-  { name: "Medical – Blue Cross PPO", enrolled: 1204, eligible: 1842, status: "compliant" },
-  { name: "Medical – Blue Cross HDHP", enrolled: 421, eligible: 1842, status: "compliant" },
-  { name: "Dental – Delta Dental", enrolled: 1518, eligible: 1842, status: "compliant" },
-  { name: "Vision – VSP", enrolled: 1322, eligible: 1842, status: "compliant" },
-  { name: "Life / AD&D – MetLife", enrolled: 1789, eligible: 1842, status: "review" },
-  { name: "401(k) – Fidelity", enrolled: 1601, eligible: 1842, status: "compliant" },
-  { name: "FSA – WEX", enrolled: 634, eligible: 1842, status: "compliant" },
-  { name: "COBRA – Businessolver", enrolled: 38, eligible: 38, status: "issue" },
+const trust = [
+  { icon: Lock, label: "SOC 2 Ready", sub: "Role-based access controls" },
+  { icon: BarChart3, label: "Real-time Metrics", sub: "Live enrollment & audit data" },
+  { icon: Globe, label: "Multi-site Support", sub: "MN, WI, ND coverage" },
+  { icon: CheckCircle2, label: "DOL / IRS Aligned", sub: "Current regulatory mapping" },
 ];
 
-const deadlines = [
-  { title: "ACA Form 1094-C / 1095-C", date: "Jun 30, 2026", type: "Filing" },
-  { title: "ERISA Plan Document Amendment", date: "Jul 15, 2026", type: "Compliance" },
-  { title: "Non-Discrimination Testing – FSA", date: "Aug 1, 2026", type: "Testing" },
-  { title: "Open Enrollment Window Opens", date: "Oct 1, 2026", type: "Enrollment" },
-];
-
-function StatusBadge({ status }: { status: string }) {
-  const styles: Record<string, string> = {
-    compliant: "bg-emerald-50 text-emerald-700 border-emerald-200",
-    review: "bg-amber-50 text-amber-700 border-amber-200",
-    issue: "bg-red-50 text-red-700 border-red-200",
-  };
-  const labels: Record<string, string> = { compliant: "Compliant", review: "Review", issue: "Issue" };
+function ScoreArc({ score, color }: { score: number; color: string }) {
+  const r = 32;
+  const circ = 2 * Math.PI * r;
   return (
-    <span className={`inline-flex px-2 py-0.5 rounded text-xs font-medium border ${styles[status]}`}>
-      {labels[status]}
-    </span>
+    <div className="relative w-20 h-20">
+      <svg viewBox="0 0 80 80" className="w-full h-full -rotate-90">
+        <circle cx="40" cy="40" r={r} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="6" />
+        <circle
+          cx="40" cy="40" r={r} fill="none"
+          stroke={color} strokeWidth="6" strokeLinecap="round"
+          strokeDasharray={`${circ * score / 100} ${circ}`}
+        />
+      </svg>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <span className="text-lg font-bold text-white">{score}</span>
+      </div>
+    </div>
   );
 }
 
-function Dot({ type }: { type: string }) {
-  const color = type === "error" ? "bg-red-500" : type === "warning" ? "bg-amber-400" : "bg-emerald-500";
-  return <div className={`w-2 h-2 rounded-full ${color} mt-1.5 flex-shrink-0`} />;
-}
-
-export default function Dashboard() {
+export default function Landing() {
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
-      <div>
-        <h1 className="text-xl font-bold text-slate-900">Benefits Compliance Overview</h1>
-        <p className="text-sm text-slate-500 mt-0.5">Plan Year 2026 · Last updated May 7, 2026</p>
-      </div>
+    <div className="min-h-screen bg-[#070f12] text-white overflow-x-hidden">
 
-      {/* Stat Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {statCards.map((card) => {
-          const Icon = card.icon;
-          return (
-            <div key={card.label} className="bg-white rounded-xl border border-slate-200 p-5">
-              <div className="flex items-start justify-between">
-                <div className={`w-9 h-9 rounded-lg ${card.bg} flex items-center justify-center`}>
-                  <Icon className={`w-[18px] h-[18px] ${card.color}`} />
-                </div>
-                {card.positive !== null && (
-                  <ArrowUpRight className={`w-4 h-4 ${card.positive ? "text-emerald-500" : "text-red-400"}`} />
-                )}
-              </div>
-              <p className="text-2xl font-bold text-slate-900 mt-3">{card.value}</p>
-              <p className="text-xs text-slate-500 mt-0.5">{card.label}</p>
-              <p className={`text-xs mt-1.5 font-medium ${card.positive ? "text-emerald-600" : card.positive === false ? "text-red-500" : "text-slate-500"}`}>
-                {card.change}
-              </p>
-            </div>
-          );
-        })}
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Compliance Health Ring */}
-        <div className="bg-white rounded-xl border border-slate-200 p-5">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-sm font-semibold text-slate-900">Compliance Health</h2>
-            <TrendingUp className="w-4 h-4 text-slate-400" />
+      {/* Nav */}
+      <nav className="fixed top-0 left-0 right-0 z-50 h-14 flex items-center px-8 border-b border-white/5"
+        style={{ backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", background: "rgba(7,15,18,0.75)" }}>
+        <div className="flex items-center gap-2.5">
+          <div className="w-7 h-7 rounded-md bg-[#1a6b3c] flex items-center justify-center">
+            <Zap className="w-3.5 h-3.5 text-white" />
           </div>
-          <div className="flex flex-col items-center py-2">
-            <div className="relative w-32 h-32">
-              <svg viewBox="0 0 120 120" className="w-full h-full -rotate-90">
-                <circle cx="60" cy="60" r="50" fill="none" stroke="#e2e8f0" strokeWidth="10" />
-                <circle
-                  cx="60" cy="60" r="50" fill="none" stroke="#1a6b3c" strokeWidth="10"
-                  strokeLinecap="round"
-                  strokeDasharray={`${2 * Math.PI * 50 * 0.94} ${2 * Math.PI * 50}`}
-                />
-              </svg>
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-3xl font-bold text-slate-900">94</span>
-                <span className="text-xs text-slate-500">/ 100</span>
-              </div>
-            </div>
-            <div className="mt-5 w-full space-y-2.5">
-              {[
-                { label: "ERISA", pct: 98 },
-                { label: "ACA", pct: 91 },
-                { label: "COBRA", pct: 82 },
-                { label: "FMLA", pct: 97 },
-              ].map((item) => (
-                <div key={item.label} className="flex items-center gap-3">
-                  <span className="text-xs text-slate-500 w-12">{item.label}</span>
-                  <div className="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                    <div
-                      className={`h-full rounded-full ${item.pct >= 95 ? "bg-emerald-500" : item.pct >= 85 ? "bg-amber-400" : "bg-red-400"}`}
-                      style={{ width: `${item.pct}%` }}
-                    />
-                  </div>
-                  <span className="text-xs font-medium text-slate-700 w-8 text-right">{item.pct}%</span>
-                </div>
-              ))}
-            </div>
-          </div>
+          <span className="text-sm font-semibold text-white">TMR Benefits</span>
+          <span className="text-[10px] px-2 py-0.5 rounded-full border border-white/10 text-white/40 font-mono ml-1">
+            ALLETE Internal
+          </span>
         </div>
+        <div className="ml-auto flex items-center gap-3">
+          <Link
+            href="/dashboard"
+            className="flex items-center gap-2 px-4 py-1.5 bg-[#1a6b3c] hover:bg-[#1d7a44] text-white text-xs font-semibold rounded-lg transition-colors"
+          >
+            Launch App <ArrowRight className="w-3 h-3" />
+          </Link>
+        </div>
+      </nav>
 
-        {/* Alerts */}
-        <div className="bg-white rounded-xl border border-slate-200 p-5">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-sm font-semibold text-slate-900">Alerts & Activity</h2>
-            <button className="text-xs text-[#1a6b3c] hover:underline font-medium">View all</button>
+      {/* Hero */}
+      <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-14 overflow-hidden">
+        <div className="absolute inset-0 bg-[#070f12]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_50%,rgba(26,107,60,0.12),transparent)]" />
+        <HeroCanvas />
+        <div className="relative z-10 max-w-4xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-emerald-500/25 bg-emerald-500/8 mb-8">
+            <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="text-xs font-mono text-emerald-400 tracking-widest uppercase">Plan Year 2026 Active</span>
           </div>
-          <div className="space-y-3.5">
-            {alerts.map((alert, i) => (
-              <div key={i} className="flex gap-3">
-                <Dot type={alert.type} />
-                <div className="min-w-0">
-                  <p className="text-xs font-semibold text-slate-900 leading-snug">{alert.title}</p>
-                  <p className="text-xs text-slate-500 leading-snug mt-0.5">{alert.detail}</p>
-                  <p className="text-[10px] text-slate-400 mt-0.5">{alert.time}</p>
-                </div>
+
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.08] tracking-tight mb-6"
+            style={{ fontFamily: "var(--font-serif)" }}>
+            Benefits compliance,{" "}
+            <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-sky-400 bg-clip-text text-transparent">
+              engineered
+            </span>{" "}
+            for ALLETE
+          </h1>
+
+          <p className="text-lg text-white/50 max-w-2xl mx-auto leading-relaxed mb-10">
+            A single platform to audit regulatory requirements, manage open enrollment, track
+            carrier SLAs, and file on time — purpose-built for ALLETE&apos;s 1,842 employees
+            across Minnesota, Wisconsin, and North Dakota.
+          </p>
+
+          <div className="flex flex-wrap items-center justify-center gap-4 mb-16">
+            <Link
+              href="/dashboard"
+              className="flex items-center gap-2.5 px-7 py-3.5 bg-[#1a6b3c] hover:bg-[#1d7a44] text-white font-semibold rounded-xl transition-colors text-sm shadow-lg shadow-emerald-900/30"
+            >
+              Launch Dashboard <ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link
+              href="/audit"
+              className="flex items-center gap-2.5 px-7 py-3.5 border border-white/15 hover:border-white/30 text-white/80 hover:text-white font-semibold rounded-xl transition-colors text-sm"
+            >
+              View Audit Status
+            </Link>
+          </div>
+
+          {/* Stats strip */}
+          <div className="flex flex-wrap items-center justify-center gap-8 border-t border-white/8 pt-8">
+            {stats.map((s, i) => (
+              <div key={i} className="text-center">
+                <p className="text-2xl font-bold text-white" style={{ fontFamily: "var(--font-mono)" }}>{s.value}</p>
+                <p className="text-xs text-white/40 mt-0.5">{s.label}</p>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Deadlines */}
-        <div className="bg-white rounded-xl border border-slate-200 p-5">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-sm font-semibold text-slate-900">Upcoming Deadlines</h2>
-            <CalendarRange className="w-4 h-4 text-slate-400" />
+        {/* Bottom gradient */}
+        <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#070f12] to-transparent pointer-events-none" />
+      </section>
+
+      {/* Features */}
+      <section className="bg-[#f8fafc] py-24 px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-14">
+            <p className="text-xs font-mono text-[#1a6b3c] uppercase tracking-widest mb-3">Full Suite</p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900" style={{ fontFamily: "var(--font-serif)" }}>
+              Everything your benefits team needs
+            </h2>
+            <p className="text-slate-500 mt-3 max-w-xl mx-auto text-sm leading-relaxed">
+              Five integrated modules covering audit, enrollment, people, vendors, and reporting —
+              all in one compliance platform.
+            </p>
           </div>
-          <div className="space-y-3">
-            {deadlines.map((d, i) => (
-              <div key={i} className="flex items-start gap-3 p-3 rounded-lg bg-slate-50 border border-slate-100">
-                <div className="flex-1 min-w-0">
-                  <p className="text-xs font-semibold text-slate-900 leading-snug">{d.title}</p>
-                  <div className="flex items-center gap-2 mt-1.5">
-                    <span className="text-[10px] px-1.5 py-0.5 bg-[#1a6b3c]/10 text-[#1a6b3c] rounded font-medium">{d.type}</span>
-                    <span className="text-[10px] text-slate-500">{d.date}</span>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {features.map((f) => {
+              const Icon = f.icon;
+              return (
+                <Link
+                  key={f.title}
+                  href={f.href}
+                  className={`group relative bg-white rounded-2xl border border-slate-200 p-6 hover:shadow-lg transition-all duration-200 overflow-hidden ${f.border}`}
+                >
+                  <div className={`absolute inset-0 bg-gradient-to-br ${f.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
+                  <div className="relative">
+                    <div className={`w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center mb-4 group-hover:bg-white transition-colors`}>
+                      <Icon className={`w-5 h-5 ${f.accent}`} />
+                    </div>
+                    <h3 className="text-base font-semibold text-slate-900 mb-2">{f.title}</h3>
+                    <p className="text-sm text-slate-500 leading-relaxed">{f.desc}</p>
+                    <div className={`flex items-center gap-1 mt-4 text-xs font-semibold ${f.accent} opacity-0 group-hover:opacity-100 transition-opacity`}>
+                      Open module <ArrowRight className="w-3 h-3" />
+                    </div>
                   </div>
+                </Link>
+              );
+            })}
+
+            {/* CTA card */}
+            <Link
+              href="/dashboard"
+              className="group relative bg-[#1a6b3c] rounded-2xl border border-emerald-700/50 p-6 hover:bg-[#1d7a44] transition-colors overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.08),transparent)]" />
+              <div className="relative">
+                <div className="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center mb-4">
+                  <BarChart3 className="w-5 h-5 text-white" />
                 </div>
-                <ChevronRight className="w-3.5 h-3.5 text-slate-400 mt-0.5 flex-shrink-0" />
+                <h3 className="text-base font-semibold text-white mb-2">Full Dashboard</h3>
+                <p className="text-sm text-emerald-200/80 leading-relaxed">
+                  All metrics, alerts, and compliance status in a single view.
+                </p>
+                <div className="flex items-center gap-1 mt-4 text-xs font-semibold text-white">
+                  Open dashboard <ArrowRight className="w-3 h-3" />
+                </div>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Compliance Pillars */}
+      <section className="bg-[#070f12] py-24 px-6 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_50%_50%,rgba(26,107,60,0.07),transparent)]" />
+        <div className="max-w-6xl mx-auto relative">
+          <div className="text-center mb-14">
+            <p className="text-xs font-mono text-emerald-400 uppercase tracking-widest mb-3">Regulatory Coverage</p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-white" style={{ fontFamily: "var(--font-serif)" }}>
+              Full-spectrum compliance tracking
+            </h2>
+            <p className="text-white/40 mt-3 max-w-xl mx-auto text-sm leading-relaxed">
+              Every major federal benefit regulation — monitored continuously, reported clearly.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {pillars.map((p) => (
+              <div
+                key={p.abbr}
+                className="bg-white/4 rounded-2xl border border-white/8 p-6 hover:border-white/16 hover:bg-white/6 transition-colors"
+              >
+                <div className="flex items-start justify-between mb-5">
+                  <div>
+                    <p className="text-2xl font-bold text-white" style={{ fontFamily: "var(--font-mono)" }}>{p.abbr}</p>
+                    <p className="text-[10px] text-white/35 mt-0.5 leading-tight max-w-[120px]">{p.name}</p>
+                  </div>
+                  <ScoreArc score={p.score} color={p.color} />
+                </div>
+                <div className="space-y-2">
+                  {p.checks.map((c, i) => (
+                    <div key={i} className="flex items-start gap-2">
+                      <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" style={{ color: p.color }} />
+                      <p className="text-xs text-white/50 leading-snug">{c}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             ))}
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Plans Table */}
-      <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
-        <div className="px-5 py-4 border-b border-slate-200 flex items-center justify-between">
-          <h2 className="text-sm font-semibold text-slate-900">Benefit Plans — Enrollment & Status</h2>
+      {/* Trust strip */}
+      <section className="bg-white py-14 px-6 border-y border-slate-100">
+        <div className="max-w-5xl mx-auto">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+            {trust.map((t) => {
+              const Icon = t.icon;
+              return (
+                <div key={t.label} className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-lg bg-[#1a6b3c]/10 flex items-center justify-center flex-shrink-0">
+                    <Icon className="w-4 h-4 text-[#1a6b3c]" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-slate-900">{t.label}</p>
+                    <p className="text-xs text-slate-500">{t.sub}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="bg-[#0f3d22] py-24 px-6 relative overflow-hidden">
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_50%,rgba(34,197,94,0.1),transparent)]" />
+          {/* Subtle grid */}
+          <svg className="absolute inset-0 w-full h-full opacity-[0.04]" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="cta-grid" x="0" y="0" width="48" height="48" patternUnits="userSpaceOnUse">
+                <path d="M 48 0 L 0 0 0 48" fill="none" stroke="white" strokeWidth="0.5" />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#cta-grid)" />
+          </svg>
+        </div>
+        <div className="relative max-w-3xl mx-auto text-center">
+          <p className="text-xs font-mono text-emerald-400 uppercase tracking-widest mb-4">ALLETE Benefits Team</p>
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4" style={{ fontFamily: "var(--font-serif)" }}>
+            Your compliance platform is ready
+          </h2>
+          <p className="text-emerald-200/60 text-sm leading-relaxed mb-10 max-w-lg mx-auto">
+            Audit, enroll, report, and monitor — all without switching between spreadsheets, carrier portals, or email threads.
+          </p>
+          <Link
+            href="/dashboard"
+            className="inline-flex items-center gap-2.5 px-8 py-4 bg-white text-[#0f3d22] font-bold rounded-xl hover:bg-emerald-50 transition-colors text-sm shadow-xl shadow-black/30"
+          >
+            Launch Dashboard <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-[#070f12] border-t border-white/6 py-8 px-6">
+        <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <FileText className="w-4 h-4 text-slate-400" />
-            <button className="text-xs text-[#1a6b3c] hover:underline font-medium">Export</button>
+            <div className="w-5 h-5 rounded bg-[#1a6b3c] flex items-center justify-center">
+              <Zap className="w-2.5 h-2.5 text-white" />
+            </div>
+            <span className="text-xs text-white/30 font-medium">TMR Benefits · ALLETE Internal Platform</span>
           </div>
+          <p className="text-xs text-white/20 font-mono">Plan Year 2026 · bribradley-7607s-projects</p>
         </div>
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="bg-slate-50">
-                <th className="text-left px-5 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide">Plan</th>
-                <th className="text-right px-5 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide">Enrolled</th>
-                <th className="text-right px-5 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide">Eligible</th>
-                <th className="text-right px-5 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide">Rate</th>
-                <th className="text-center px-5 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide">Status</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100">
-              {plans.map((plan) => {
-                const rate = Math.round((plan.enrolled / plan.eligible) * 100);
-                return (
-                  <tr key={plan.name} className="hover:bg-slate-50 transition-colors">
-                    <td className="px-5 py-3 text-sm font-medium text-slate-900">{plan.name}</td>
-                    <td className="px-5 py-3 text-sm text-slate-700 text-right tabular-nums">{plan.enrolled.toLocaleString()}</td>
-                    <td className="px-5 py-3 text-sm text-slate-500 text-right tabular-nums">{plan.eligible.toLocaleString()}</td>
-                    <td className="px-5 py-3 text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        <div className="w-20 h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                          <div className="h-full bg-[#1a6b3c] rounded-full" style={{ width: `${rate}%` }} />
-                        </div>
-                        <span className="text-xs text-slate-600 tabular-nums w-8">{rate}%</span>
-                      </div>
-                    </td>
-                    <td className="px-5 py-3 text-center">
-                      <StatusBadge status={plan.status} />
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      </footer>
     </div>
   );
 }

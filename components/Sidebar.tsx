@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 
 const nav = [
-  { href: "/", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/audit", label: "Benefits Audit", icon: ShieldCheck },
   { href: "/enrollment", label: "Open Enrollment", icon: CalendarRange },
   { href: "/employees", label: "Employees", icon: Users },
@@ -41,7 +41,7 @@ export default function Sidebar() {
       {/* Nav */}
       <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
         {nav.map(({ href, label, icon: Icon }) => {
-          const active = href === "/" ? pathname === "/" : pathname.startsWith(href);
+          const active = pathname === href || pathname.startsWith(href + "/");
           return (
             <Link
               key={href}
