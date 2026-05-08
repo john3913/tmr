@@ -184,8 +184,8 @@ export default function HeroCanvas() {
 
       // Soft radial vignette — pulls attention to centre
       const vig = c.createRadialGradient(W / 2, H / 2, H * 0.22, W / 2, H / 2, Math.max(W, H) * 0.82);
-      vig.addColorStop(0, "rgba(255,255,255,0)");
-      vig.addColorStop(1, "rgba(248,250,252,0.52)");
+      vig.addColorStop(0, "rgba(221,228,237,0)");
+      vig.addColorStop(1, "rgba(213,221,232,0.55)");
       c.fillStyle = vig;
       c.fillRect(0, 0, W, H);
 

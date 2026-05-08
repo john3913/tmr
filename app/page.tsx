@@ -127,7 +127,7 @@ export default function Landing() {
       {/* Nav — light glass */}
       <nav
         className="fixed top-0 left-0 right-0 z-50 h-14 flex items-center px-8 border-b border-slate-100"
-        style={{ backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", background: "rgba(255,255,255,0.88)" }}
+        style={{ backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", background: "rgba(236,241,247,0.92)" }}
       >
         <div className="flex items-center gap-2.5">
           <span className="text-sm font-semibold text-slate-900">TMR Benefits</span>
@@ -146,8 +146,8 @@ export default function Landing() {
       </nav>
 
       {/* Hero — white with corporate light canvas */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-14 overflow-hidden bg-white">
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-50/60 via-white to-white" />
+      <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-14 overflow-hidden bg-[#dde4ed]">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#cdd6e2]/80 via-[#dde4ed] to-[#dde4ed]" />
         <HeroCanvas />
 
         <div className="relative z-10 max-w-4xl mx-auto">
@@ -198,11 +198,11 @@ export default function Landing() {
           </div>
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#f8fafc] to-transparent pointer-events-none" />
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#d5dde8] to-transparent pointer-events-none" />
       </section>
 
       {/* Features */}
-      <section className="bg-[#f8fafc] py-24 px-6">
+      <section className="bg-[#d5dde8] py-24 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14">
             <p className="text-xs font-mono text-[#1a6b3c] uppercase tracking-widest mb-3">Full Suite</p>
