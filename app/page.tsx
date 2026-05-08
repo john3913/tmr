@@ -128,7 +128,7 @@ export default function Landing() {
 
       {/* Nav */}
       <nav
-        className="fixed top-0 left-0 right-0 z-50 h-14 flex items-center px-8 border-b border-slate-200/60"
+        className="fixed top-0 left-0 right-0 z-50 h-14 flex items-center px-8 border-b border-slate-200/60 relative"
         style={{ backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)", background: "rgba(240,245,250,0.88)" }}
       >
         <div className="flex items-center gap-3">
@@ -137,6 +137,80 @@ export default function Landing() {
             ALLETE
           </span>
         </div>
+
+        {/* Centered compliance infographic */}
+        <div className="hidden lg:flex items-center gap-2.5 absolute left-1/2 -translate-x-1/2 bg-white/70 border border-slate-200/80 rounded-2xl px-3.5 py-[7px]" style={{ backdropFilter: "blur(12px)" }}>
+
+          {/* Live pulse */}
+          <div className="flex items-center gap-1.5">
+            <span className="relative flex h-[7px] w-[7px]">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#1a6b3c] opacity-40" />
+              <span className="relative inline-flex h-[7px] w-[7px] rounded-full bg-[#1a6b3c]" />
+            </span>
+            <span className="text-[8px] font-mono text-slate-400 uppercase tracking-[0.18em]">Live</span>
+          </div>
+
+          <div className="h-3 w-px bg-slate-200" />
+
+          {/* Mini compliance arc */}
+          <div className="flex items-center gap-2">
+            <div className="relative w-[22px] h-[22px]">
+              <svg viewBox="0 0 22 22" className="w-full h-full -rotate-90">
+                <defs>
+                  <linearGradient id="lp-arc" x1="0" y1="0" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stopColor="#1a6b3c" />
+                    <stop offset="100%" stopColor="#0079BE" />
+                  </linearGradient>
+                </defs>
+                <circle cx="11" cy="11" r="8.5" fill="none" stroke="#e0eaf6" strokeWidth="2.5" />
+                <circle cx="11" cy="11" r="8.5" fill="none" stroke="url(#lp-arc)" strokeWidth="2.5"
+                  strokeLinecap="round" strokeDasharray="50.2 53.4" />
+              </svg>
+            </div>
+            <div>
+              <p className="text-[11px] font-bold text-slate-900 leading-none">94%</p>
+              <p className="text-[8px] text-slate-400 leading-none mt-[2px]">compliant</p>
+            </div>
+          </div>
+
+          <div className="h-3 w-px bg-slate-200" />
+
+          {/* Regulation bar chart */}
+          <div className="flex items-end gap-[2px] h-[18px]">
+            {([
+              { v: 98, c: "#1a6b3c" }, { v: 91, c: "#0079BE" },
+              { v: 82, c: "#f59e0b" }, { v: 97, c: "#1a6b3c" },
+            ] as {v:number;c:string}[]).map((b, i) => (
+              <div key={i} className="w-[4px] rounded-[1.5px]" style={{ height: `${b.v * 0.18}px`, backgroundColor: b.c }} />
+            ))}
+          </div>
+
+          <div className="h-3 w-px bg-slate-200" />
+
+          {/* Employee sparkline */}
+          <div className="flex items-center gap-1.5">
+            <div className="flex items-end gap-[1.5px] h-3">
+              {([72,82,90,96,100] as number[]).map((h, i) => (
+                <div key={i} className="w-[2.5px] rounded-[1px]" style={{
+                  height: `${h * 0.12}px`,
+                  background: i === 4 ? "linear-gradient(to top,#0079BE,#00B0CA)" : `rgba(0,121,190,${0.2 + i * 0.12})`,
+                }} />
+              ))}
+            </div>
+            <p className="text-[10px] font-semibold text-slate-700 font-mono">1,842</p>
+          </div>
+
+          <div className="h-3 w-px bg-slate-200" />
+
+          {/* Next deadline */}
+          <div className="flex items-center gap-1.5">
+            <div className="w-[5px] h-[5px] rounded-full bg-amber-400 flex-shrink-0" />
+            <span className="text-[10px] font-mono font-semibold text-amber-600">Jun 30</span>
+            <span className="text-[9px] text-slate-400 font-mono">· 54d</span>
+          </div>
+
+        </div>
+
         <div className="ml-auto">
           <Link
             href="/dashboard"
