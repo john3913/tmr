@@ -1,17 +1,16 @@
 "use client";
 import { useEffect, useRef } from "react";
 
-type Tier = "regular" | "accent" | "focal";
+interface Node3D {
+  x: number; y: number; z: number;
+}
 
-interface Node {
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  baseR: number;
-  tier: Tier;
-  phase: number;
-  alpha: number;
+interface Particle {
+  fromIdx: number;
+  toIdx: number;
+  progress: number;
+  speed: number;
+  opacity: number;
 }
 
 export default function HeroCanvas() {
@@ -20,180 +19,171 @@ export default function HeroCanvas() {
   useEffect(() => {
     const canvas = ref.current;
     if (!canvas) return;
-    const ctx = canvas.getContext("2d") as CanvasRenderingContext2D | null;
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
     const c = ctx;
 
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    let W = canvas.offsetWidth;
-    let H = canvas.offsetHeight;
+    let animId: number;
+    let t = 0;
 
-    const resize = () => {
-      W = canvas.offsetWidth;
-      H = canvas.offsetHeight;
-      canvas.width = W * dpr;
-      canvas.height = H * dpr;
-      c.scale(dpr, dpr);
-    };
-    resize();
+    const COLS = 10;
+    const ROWS = 6;
+    const DEPTH = 3;
 
-    const DIST = 168;
+    const nodes: Node3D[] = [];
+    const edges: [number, number][] = [];
+    const particles: Particle[] = [];
 
-    function makeNode(tier: Tier): Node {
-      const speed = tier === "focal" ? 0.20 : tier === "accent" ? 0.40 : 0.54;
-      const baseR = tier === "focal"
-        ? 4.5 + Math.random() * 2.5
-        : tier === "accent"
-        ? 2.2 + Math.random() * 1.8
-        : 1.2 + Math.random() * 1.6;
+    function buildLattice() {
+      nodes.length = 0;
+      edges.length = 0;
+      for (let z = 0; z < DEPTH; z++) {
+        for (let r = 0; r < ROWS; r++) {
+          for (let col = 0; col < COLS; col++) {
+            nodes.push({
+              x: (col / (COLS - 1) - 0.5) * 2,
+              y: (r   / (ROWS - 1) - 0.5) * 1.4,
+              z: (z   / (DEPTH - 1) - 0.5) * 1.6,
+            });
+          }
+        }
+      }
+      const idx = (z: number, r: number, col: number) => z * ROWS * COLS + r * COLS + col;
+      for (let z = 0; z < DEPTH; z++) {
+        for (let r = 0; r < ROWS; r++) {
+          for (let col = 0; col < COLS; col++) {
+            if (col + 1 < COLS) edges.push([idx(z, r, col), idx(z, r, col + 1)]);
+            if (r + 1 < ROWS)  edges.push([idx(z, r, col), idx(z, r + 1, col)]);
+            if (z + 1 < DEPTH) edges.push([idx(z, r, col), idx(z + 1, r, col)]);
+          }
+        }
+      }
+      for (let i = 0; i < 60; i++) {
+        const ei = Math.floor(Math.random() * edges.length);
+        particles.push({
+          fromIdx: edges[ei][0],
+          toIdx:   edges[ei][1],
+          progress: Math.random(),
+          speed: 0.003 + Math.random() * 0.005,
+          opacity: 0.45 + Math.random() * 0.55,
+        });
+      }
+    }
+
+    function project(nx: number, ny: number, nz: number, rotY: number, rotX: number) {
+      const W = canvas!.offsetWidth;
+      const H = canvas!.offsetHeight;
+      const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
+      const rx  = nx * cosY - nz * sinY;
+      const rz  = nx * sinY + nz * cosY;
+      const cosX = Math.cos(rotX), sinX = Math.sin(rotX);
+      const ry  = ny * cosX - rz * sinX;
+      const rz2 = ny * sinX + rz * cosX;
+      const fov = 2.4;
+      const z = rz2 + fov;
+      const scale = fov / z;
+      const span = Math.min(W, H) * 0.40;
       return {
-        x: Math.random() * W,
-        y: Math.random() * H,
-        vx: (Math.random() - 0.5) * speed * 2,
-        vy: (Math.random() - 0.5) * speed * 2,
-        baseR,
-        tier,
-        phase: Math.random() * Math.PI * 2,
-        alpha: 0.22 + Math.random() * 0.18,
+        px: W / 2 + rx * scale * span,
+        py: H / 2 + ry * scale * span,
+        scale,
+        z: rz2,
       };
     }
 
-    const nodes: Node[] = [
-      ...Array.from({ length: 5 },  () => makeNode("focal")),
-      ...Array.from({ length: 14 }, () => makeNode("accent")),
-      ...Array.from({ length: 52 }, () => makeNode("regular")),
-    ];
-
-    let animId: number;
-    let frame = 0;
-
-    // Layered radial glow: outer bloom + lit core
-    function glowNode(
-      x: number, y: number, r: number,
-      bloomR: number, coreAlpha: number, bloomAlpha: number,
-      rgb: [number, number, number]
-    ) {
-      const [cr, cg, cb] = rgb;
-      const bloom = c.createRadialGradient(x, y, 0, x, y, bloomR);
-      bloom.addColorStop(0,   `rgba(${cr},${cg},${cb},${bloomAlpha})`);
-      bloom.addColorStop(0.5, `rgba(${cr},${cg},${cb},${(bloomAlpha * 0.3).toFixed(3)})`);
-      bloom.addColorStop(1,   `rgba(${cr},${cg},${cb},0)`);
-      c.beginPath();
-      c.arc(x, y, bloomR, 0, Math.PI * 2);
-      c.fillStyle = bloom;
-      c.fill();
-
-      // Lit core with inner highlight
-      const coreR = r * 0.7;
-      const lit = c.createRadialGradient(x - r * 0.28, y - r * 0.3, 0, x, y, coreR);
-      const hi = Math.min(255, cr + 65);
-      lit.addColorStop(0, `rgba(${hi},${Math.min(255,cg+65)},${Math.min(255,cb+65)},${coreAlpha})`);
-      lit.addColorStop(1, `rgba(${cr},${cg},${cb},${(coreAlpha * 0.45).toFixed(3)})`);
-      c.beginPath();
-      c.arc(x, y, coreR, 0, Math.PI * 2);
-      c.fillStyle = lit;
-      c.fill();
+    function resize() {
+      const W = canvas!.offsetWidth;
+      const H = canvas!.offsetHeight;
+      canvas!.width  = W * dpr;
+      canvas!.height = H * dpr;
+      c.scale(dpr, dpr);
     }
 
     function draw() {
+      const W = canvas!.offsetWidth;
+      const H = canvas!.offsetHeight;
       c.clearRect(0, 0, W, H);
-      frame++;
 
-      // Move
-      for (const n of nodes) {
-        n.x += n.vx;
-        n.y += n.vy;
-        if (n.x < 0)  { n.x = 0;  n.vx =  Math.abs(n.vx); }
-        if (n.x > W)  { n.x = W;  n.vx = -Math.abs(n.vx); }
-        if (n.y < 0)  { n.y = 0;  n.vy =  Math.abs(n.vy); }
-        if (n.y > H)  { n.y = H;  n.vy = -Math.abs(n.vy); }
+      const rotY = t * 0.06 + 0.25;
+      const rotX = Math.sin(t * 0.025) * 0.16 + 0.08;
+
+      const proj = nodes.map((n) => project(n.x, n.y, n.z, rotY, rotX));
+
+      // Edges — slate hairlines, depth-faded
+      for (const [a, b] of edges) {
+        const pa = proj[a], pb = proj[b];
+        const avgZ = (pa.z + pb.z) / 2;
+        const alpha = Math.max(0, (avgZ + 1.0) / 2.0) * 0.13;
+        c.beginPath();
+        c.moveTo(pa.px, pa.py);
+        c.lineTo(pb.px, pb.py);
+        c.strokeStyle = `rgba(100,116,139,${alpha.toFixed(3)})`;
+        c.lineWidth = 0.6;
+        c.stroke();
       }
 
-      // Edges — gradient strokes that fade at endpoints
+      // Nodes — small slate dots, depth-faded
       for (let i = 0; i < nodes.length; i++) {
-        for (let j = i + 1; j < nodes.length; j++) {
-          const a = nodes[i], b = nodes[j];
-          const dx = a.x - b.x, dy = a.y - b.y;
-          const d = Math.sqrt(dx * dx + dy * dy);
-          if (d >= DIST) continue;
-
-          const t = 1 - d / DIST;
-          const focal  = a.tier === "focal"  || b.tier === "focal";
-          const accent = a.tier !== "regular" || b.tier !== "regular";
-
-          const g = c.createLinearGradient(a.x, a.y, b.x, b.y);
-          if (focal) {
-            const a0 = t * 0.42;
-            g.addColorStop(0,    "rgba(26,107,60,0)");
-            g.addColorStop(0.25, `rgba(26,107,60,${a0})`);
-            g.addColorStop(0.75, `rgba(13,148,136,${a0})`);
-            g.addColorStop(1,    "rgba(13,148,136,0)");
-          } else if (accent) {
-            const a0 = t * 0.22;
-            g.addColorStop(0,   "rgba(26,107,60,0)");
-            g.addColorStop(0.5, `rgba(26,107,60,${a0})`);
-            g.addColorStop(1,   "rgba(26,107,60,0)");
-          } else {
-            const a0 = t * 0.08;
-            g.addColorStop(0,   "rgba(100,116,139,0)");
-            g.addColorStop(0.5, `rgba(100,116,139,${a0})`);
-            g.addColorStop(1,   "rgba(100,116,139,0)");
-          }
-
-          c.beginPath();
-          c.moveTo(a.x, a.y);
-          c.lineTo(b.x, b.y);
-          c.strokeStyle = g;
-          c.lineWidth = focal ? 1.2 : accent ? 0.8 : 0.5;
-          c.stroke();
-        }
+        const p = proj[i];
+        const alpha = Math.max(0, (p.z + 1.0) / 2.0) * 0.38;
+        const r = p.scale * 2.2;
+        c.beginPath();
+        c.arc(p.px, p.py, r, 0, Math.PI * 2);
+        c.fillStyle = `rgba(100,116,139,${alpha.toFixed(3)})`;
+        c.fill();
       }
 
-      // Nodes: painter's order — regular → accent → focal
-      for (const tier of ["regular", "accent", "focal"] as Tier[]) {
-        for (const n of nodes) {
-          if (n.tier !== tier) continue;
-          const pulse = 0.88 + 0.12 * Math.sin(frame * 0.022 + n.phase);
-          const r = n.baseR * (tier !== "regular" ? pulse : 1);
-
-          if (tier === "regular") {
-            c.beginPath();
-            c.arc(n.x, n.y, r, 0, Math.PI * 2);
-            c.fillStyle = `rgba(148,163,184,${n.alpha.toFixed(3)})`;
-            c.fill();
-
-          } else if (tier === "accent") {
-            glowNode(n.x, n.y, r, r * 5.5, 0.78, 0.13, [26, 107, 60]);
-
-          } else {
-            // Focal: extra outer corona first
-            const coronaR = r * 10;
-            const corona = c.createRadialGradient(n.x, n.y, r * 1.5, n.x, n.y, coronaR);
-            corona.addColorStop(0, "rgba(26,107,60,0.09)");
-            corona.addColorStop(0.5, "rgba(26,107,60,0.03)");
-            corona.addColorStop(1, "rgba(26,107,60,0)");
-            c.beginPath();
-            c.arc(n.x, n.y, coronaR, 0, Math.PI * 2);
-            c.fillStyle = corona;
-            c.fill();
-
-            glowNode(n.x, n.y, r, r * 7.5, 0.88, 0.24, [34, 197, 94]);
-          }
+      // Particles — ALLETE green core + teal glow
+      for (const part of particles) {
+        part.progress += part.speed;
+        if (part.progress >= 1) {
+          const ei = Math.floor(Math.random() * edges.length);
+          part.fromIdx  = edges[ei][0];
+          part.toIdx    = edges[ei][1];
+          part.progress = 0;
+          part.speed    = 0.003 + Math.random() * 0.005;
         }
+        const pa = proj[part.fromIdx], pb = proj[part.toIdx];
+        const px = pa.px + (pb.px - pa.px) * part.progress;
+        const py = pa.py + (pb.py - pa.py) * part.progress;
+        const avgZ = (pa.z + pb.z) / 2;
+        const depthAlpha = Math.max(0, (avgZ + 1.0) / 2.0);
+        const alpha = depthAlpha * part.opacity;
+
+        // Outer teal glow
+        const glowR = 10;
+        const glow = c.createRadialGradient(px, py, 0, px, py, glowR);
+        glow.addColorStop(0, `rgba(13,148,136,${(alpha * 0.35).toFixed(3)})`);
+        glow.addColorStop(1, `rgba(13,148,136,0)`);
+        c.beginPath();
+        c.arc(px, py, glowR, 0, Math.PI * 2);
+        c.fillStyle = glow;
+        c.fill();
+
+        // Green core
+        c.beginPath();
+        c.arc(px, py, 2.2, 0, Math.PI * 2);
+        c.fillStyle = `rgba(26,107,60,${alpha.toFixed(3)})`;
+        c.fill();
       }
 
-      // Soft radial vignette — pulls attention to centre
-      const vig = c.createRadialGradient(W / 2, H / 2, H * 0.22, W / 2, H / 2, Math.max(W, H) * 0.82);
+      // Vignette — matches #dde4ed background
+      const vig = c.createRadialGradient(W / 2, H / 2, H * 0.18, W / 2, H / 2, Math.max(W, H) * 0.85);
       vig.addColorStop(0, "rgba(221,228,237,0)");
-      vig.addColorStop(1, "rgba(213,221,232,0.55)");
+      vig.addColorStop(1, "rgba(213,221,232,0.62)");
       c.fillStyle = vig;
       c.fillRect(0, 0, W, H);
 
+      t += 0.008;
       animId = requestAnimationFrame(draw);
     }
 
-    draw();
+    buildLattice();
+    resize();
     window.addEventListener("resize", resize);
+    draw();
+
     return () => {
       cancelAnimationFrame(animId);
       window.removeEventListener("resize", resize);
