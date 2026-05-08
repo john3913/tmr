@@ -5,63 +5,41 @@ import {
   ArrowRight, CheckCircle2, BarChart3, Lock, Globe,
 } from "lucide-react";
 
-const stats = [
-  { value: "1,842", label: "Eligible Employees" },
-  { value: "94%", label: "Compliance Score" },
-  { value: "8", label: "Benefit Plans" },
-  { value: "3", label: "Deadlines This Quarter" },
-];
-
 const features = [
   {
     icon: ShieldCheck,
     title: "Benefits Audit",
     desc: "Track ERISA, ACA, COBRA, and FMLA requirements with real-time compliance checks across all benefit plans.",
     href: "/audit",
-    color: "from-emerald-500/10 to-emerald-600/5",
-    accent: "text-emerald-600",
-    iconBg: "bg-emerald-50",
-    border: "group-hover:border-emerald-300",
+    span: "",
   },
   {
     icon: CalendarRange,
     title: "Open Enrollment",
-    desc: "Manage enrollment windows, eligibility rules, plan options, and carrier deadlines in a single unified view.",
+    desc: "Manage enrollment windows, eligibility rules, plan options, and carrier deadlines in one unified view.",
     href: "/enrollment",
-    color: "from-sky-500/10 to-sky-600/5",
-    accent: "text-sky-600",
-    iconBg: "bg-sky-50",
-    border: "group-hover:border-sky-300",
+    span: "",
   },
   {
     icon: Users,
     title: "Employee Directory",
     desc: "See every employee's benefit elections, COBRA status, and compliance flags at a glance.",
     href: "/employees",
-    color: "from-violet-500/10 to-violet-600/5",
-    accent: "text-violet-600",
-    iconBg: "bg-violet-50",
-    border: "group-hover:border-violet-300",
+    span: "sm:col-span-2 lg:col-span-1",
   },
   {
     icon: Building2,
     title: "Vendors & Carriers",
-    desc: "Monitor SLA performance across all carriers — Blue Cross, Delta, MetLife, Fidelity, WEX, and more.",
+    desc: "Monitor SLA performance across Blue Cross, Delta, MetLife, Fidelity, WEX, and more.",
     href: "/vendors",
-    color: "from-amber-500/10 to-amber-600/5",
-    accent: "text-amber-600",
-    iconBg: "bg-amber-50",
-    border: "group-hover:border-amber-300",
+    span: "",
   },
   {
     icon: FileBarChart2,
     title: "Reports & Filings",
-    desc: "Never miss a regulatory deadline. Form 5500, ACA 1094-C/1095-C, PCORI, and SAR — all tracked in one calendar.",
+    desc: "Form 5500, ACA 1094-C/1095-C, PCORI, and SAR — every deadline tracked in one calendar.",
     href: "/reports",
-    color: "from-rose-500/10 to-rose-600/5",
-    accent: "text-rose-600",
-    iconBg: "bg-rose-50",
-    border: "group-hover:border-rose-300",
+    span: "",
   },
 ];
 
@@ -97,10 +75,10 @@ const pillars = [
 ];
 
 const trust = [
-  { icon: Lock, label: "SOC 2 Ready", sub: "Role-based access controls" },
-  { icon: BarChart3, label: "Real-time Metrics", sub: "Live enrollment & audit data" },
-  { icon: Globe, label: "Multi-site Support", sub: "MN, WI, ND coverage" },
-  { icon: CheckCircle2, label: "DOL / IRS Aligned", sub: "Current regulatory mapping" },
+  { icon: Lock,         label: "SOC 2 Ready",       sub: "Role-based access controls" },
+  { icon: BarChart3,    label: "Real-time Metrics",  sub: "Live enrollment & audit data" },
+  { icon: Globe,        label: "Multi-site Support", sub: "MN, WI, ND coverage" },
+  { icon: CheckCircle2, label: "DOL / IRS Aligned",  sub: "Current regulatory mapping" },
 ];
 
 function ScoreArc({ score, color }: { score: number; color: string }) {
@@ -124,74 +102,97 @@ export default function Landing() {
   return (
     <div className="min-h-screen overflow-x-hidden">
 
-      {/* Nav — light glass */}
+      {/* Nav */}
       <nav
-        className="fixed top-0 left-0 right-0 z-50 h-14 flex items-center px-8 border-b border-slate-100"
-        style={{ backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", background: "rgba(236,241,247,0.92)" }}
+        className="fixed top-0 left-0 right-0 z-50 h-14 flex items-center px-8 border-b border-slate-200/60"
+        style={{ backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)", background: "rgba(240,245,250,0.88)" }}
       >
-        <div className="flex items-center gap-2.5">
-          <span className="text-sm font-semibold text-slate-900">TMR Benefits</span>
-          <span className="text-[10px] px-2 py-0.5 rounded-full border border-slate-200 text-slate-400 font-mono ml-1">
-            ALLETE Internal
+        <div className="flex items-center gap-3">
+          <span className="text-sm font-semibold tracking-tight text-slate-900">TMR Benefits</span>
+          <span className="text-[9px] px-2 py-0.5 rounded-full bg-[#1a6b3c]/8 text-[#1a6b3c] font-mono tracking-widest uppercase">
+            ALLETE
           </span>
         </div>
         <div className="ml-auto">
           <Link
             href="/dashboard"
-            className="btn-grad flex items-center gap-2 px-4 py-1.5 text-white text-xs font-semibold rounded-lg"
+            className="btn-grad inline-flex items-center gap-2 px-4 py-1.5 text-white text-xs font-semibold rounded-lg"
           >
             Launch App <ArrowRight className="w-3 h-3" />
           </Link>
         </div>
       </nav>
 
-      {/* Hero — white with corporate light canvas */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-14 overflow-hidden bg-[#dde4ed]">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#cdd6e2]/80 via-[#dde4ed] to-[#dde4ed]" />
+      {/* Hero */}
+      <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 pt-14 pb-20 overflow-hidden bg-[#dde4ed]">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#c8d4e0]/70 via-[#dde4ed]/60 to-[#d8e0ea]" />
         <HeroCanvas />
 
-        <div className="relative z-10 max-w-4xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[#1a6b3c]/20 bg-[#1a6b3c]/5 mb-8">
-            <div className="w-1.5 h-1.5 rounded-full bg-[#1a6b3c] animate-pulse" />
-            <span className="text-xs font-mono text-[#1a6b3c] tracking-widest uppercase">Plan Year 2026 Active</span>
+        <div className="relative z-10 max-w-4xl mx-auto space-y-0">
+
+          {/* Personal signature */}
+          <div className="flex items-center justify-center gap-5 mb-9">
+            <div className="h-px w-12 bg-gradient-to-r from-transparent to-slate-400/50" />
+            <div className="text-center">
+              <p
+                className="text-[22px] font-semibold italic leading-tight text-slate-800 tracking-tight"
+                style={{ fontFamily: "var(--font-serif)" }}
+              >
+                Troy Michael Rasch
+              </p>
+              <p className="text-[9.5px] font-mono text-[#1a6b3c] tracking-[0.22em] uppercase mt-1.5">
+                AI Driven Benefits Engineer
+              </p>
+            </div>
+            <div className="h-px w-12 bg-gradient-to-l from-transparent to-slate-400/50" />
           </div>
 
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#1a6b3c]/18 bg-[#1a6b3c]/5 mb-7">
+            <div className="w-1.5 h-1.5 rounded-full bg-[#1a6b3c] animate-pulse" />
+            <span className="text-[10px] font-mono text-[#1a6b3c] tracking-widest uppercase">Plan Year 2026 Active</span>
+          </div>
+
+          {/* Headline */}
           <h1
-            className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.08] tracking-tight mb-6 text-slate-900"
+            className="text-5xl sm:text-6xl lg:text-[76px] font-bold leading-[1.06] tracking-[-0.02em] mb-6 text-slate-900"
             style={{ fontFamily: "var(--font-serif)" }}
           >
             Benefits compliance,{" "}
+            <br className="hidden sm:block" />
             <span className="bg-gradient-to-r from-[#1a6b3c] via-[#15803d] to-[#0d9488] bg-clip-text text-transparent">
               engineered
             </span>{" "}
             for ALLETE
           </h1>
 
-          <p className="text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed mb-10">
+          <p className="text-[17px] text-slate-500 max-w-2xl mx-auto leading-relaxed mb-10">
             A single platform to audit regulatory requirements, manage open enrollment, track
             carrier SLAs, and file on time — purpose-built for ALLETE&apos;s 1,842 employees
             across Minnesota, Wisconsin, and North Dakota.
           </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-4 mb-16">
+          {/* CTAs */}
+          <div className="flex flex-wrap items-center justify-center gap-3.5 mb-16">
             <Link
               href="/dashboard"
-              className="btn-grad flex items-center gap-2.5 px-7 py-3.5 text-white font-semibold rounded-xl text-sm shadow-md shadow-[#1a6b3c]/20"
+              className="btn-grad inline-flex items-center gap-2.5 px-7 py-3.5 text-white font-semibold rounded-2xl text-sm shadow-lg shadow-[#1a6b3c]/25"
             >
               Launch Dashboard <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
               href="/audit"
-              className="btn-grad-outline flex items-center gap-2.5 px-7 py-3.5 text-slate-700 hover:text-[#1a6b3c] font-semibold rounded-xl text-sm"
+              className="btn-grad-outline inline-flex items-center gap-2.5 px-7 py-3.5 text-slate-700 hover:text-[#1a6b3c] font-semibold rounded-2xl text-sm"
             >
               View Audit Status
             </Link>
           </div>
 
+          {/* Stats cards */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 w-full max-w-3xl mx-auto">
 
             {/* Employees */}
-            <div className="bg-white/50 backdrop-blur-sm rounded-2xl border border-white/70 p-5 text-left shadow-sm">
+            <div className="bg-white/55 backdrop-blur-md rounded-2xl border border-white/75 p-5 text-left shadow-sm shadow-slate-400/10">
               <div className="flex flex-wrap gap-[3px] mb-4 w-[52px]">
                 {Array.from({ length: 12 }).map((_, i) => (
                   <div key={i} className={`w-[9px] h-[9px] rounded-full ${i < 10 ? "bg-[#1a6b3c]" : "bg-slate-300"}`} />
@@ -203,7 +204,7 @@ export default function Landing() {
             </div>
 
             {/* Compliance Score */}
-            <div className="bg-white/50 backdrop-blur-sm rounded-2xl border border-white/70 p-5 text-left shadow-sm">
+            <div className="bg-white/55 backdrop-blur-md rounded-2xl border border-white/75 p-5 text-left shadow-sm shadow-slate-400/10">
               <div className="flex items-start justify-between mb-1">
                 <div className="flex-1 min-w-0">
                   <p className="text-3xl font-bold bg-gradient-to-r from-[#1a6b3c] to-[#0d9488] bg-clip-text text-transparent" style={{ fontFamily: "var(--font-mono)" }}>94%</p>
@@ -220,14 +221,10 @@ export default function Landing() {
             </div>
 
             {/* Benefit Plans */}
-            <div className="bg-white/50 backdrop-blur-sm rounded-2xl border border-white/70 p-5 text-left shadow-sm">
+            <div className="bg-white/55 backdrop-blur-md rounded-2xl border border-white/75 p-5 text-left shadow-sm shadow-slate-400/10">
               <div className="grid grid-cols-4 gap-1 mb-4 w-fit">
                 {["Medical", "Dental", "Vision", "Life", "401k", "FSA", "COBRA", "LTD"].map((plan, i) => (
-                  <div
-                    key={plan}
-                    title={plan}
-                    className={`w-3 h-3 rounded-sm ${i === 7 ? "bg-amber-400" : "bg-[#1a6b3c]"}`}
-                  />
+                  <div key={plan} title={plan} className={`w-3 h-3 rounded-sm ${i === 7 ? "bg-amber-400" : "bg-[#1a6b3c]"}`} />
                 ))}
               </div>
               <p className="text-3xl font-bold bg-gradient-to-r from-[#1a6b3c] to-[#0d9488] bg-clip-text text-transparent" style={{ fontFamily: "var(--font-mono)" }}>8</p>
@@ -236,13 +233,9 @@ export default function Landing() {
             </div>
 
             {/* Deadlines */}
-            <div className="bg-white/50 backdrop-blur-sm rounded-2xl border border-white/70 p-5 text-left shadow-sm">
+            <div className="bg-white/55 backdrop-blur-md rounded-2xl border border-white/75 p-5 text-left shadow-sm shadow-slate-400/10">
               <div className="flex flex-col gap-1 mb-4">
-                {[
-                  { date: "Jun 30", hot: true },
-                  { date: "Jul 15", hot: false },
-                  { date: "Aug 1",  hot: false },
-                ].map((d) => (
+                {[{ date: "Jun 30", hot: true }, { date: "Jul 15", hot: false }, { date: "Aug 1", hot: false }].map((d) => (
                   <span key={d.date} className={`inline-flex items-center gap-1 text-[9px] px-1.5 py-0.5 rounded font-mono font-semibold w-fit ${
                     d.hot ? "bg-amber-100 text-amber-700 border border-amber-200" : "bg-slate-100 text-slate-500 border border-slate-200"
                   }`}>
@@ -259,61 +252,58 @@ export default function Landing() {
           </div>
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#d5dde8] to-transparent pointer-events-none" />
+        <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#d5dde8] to-transparent pointer-events-none" />
       </section>
 
       {/* Features */}
-      <section className="bg-[#d5dde8] py-24 px-6">
+      <section className="bg-white py-28 px-6">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-14">
-            <p className="text-xs font-mono text-[#1a6b3c] uppercase tracking-widest mb-3">Full Suite</p>
-            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900" style={{ fontFamily: "var(--font-serif)" }}>
-              Everything your benefits team needs
+          <div className="text-center mb-16">
+            <p className="text-[10px] font-mono text-[#1a6b3c] uppercase tracking-[0.2em] mb-4">Full Suite</p>
+            <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 tracking-tight" style={{ fontFamily: "var(--font-serif)" }}>
+              Everything your benefits<br className="hidden sm:block" /> team needs
             </h2>
-            <p className="text-slate-500 mt-3 max-w-xl mx-auto text-sm leading-relaxed">
-              Five integrated modules covering audit, enrollment, people, vendors, and reporting —
-              all in one compliance platform.
+            <p className="text-slate-400 mt-4 max-w-md mx-auto text-[15px] leading-relaxed">
+              Five integrated modules — audit, enrollment, people, vendors, and reporting — in one compliance platform.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {features.map((f) => {
               const Icon = f.icon;
               return (
                 <Link
                   key={f.title}
                   href={f.href}
-                  className={`group relative bg-white rounded-2xl border border-slate-200 p-6 hover:shadow-lg transition-all duration-200 overflow-hidden ${f.border}`}
+                  className={`group relative bg-slate-50 hover:bg-white rounded-3xl border border-slate-100 hover:border-[#1a6b3c]/20 p-7 hover:shadow-xl hover:shadow-[#1a6b3c]/6 transition-all duration-300 ${f.span}`}
                 >
-                  <div className={`absolute inset-0 bg-gradient-to-br ${f.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
-                  <div className="relative">
-                    <div className={`w-10 h-10 rounded-xl ${f.iconBg} flex items-center justify-center mb-4`}>
-                      <Icon className={`w-5 h-5 ${f.accent}`} />
-                    </div>
-                    <h3 className="text-base font-semibold text-slate-900 mb-2">{f.title}</h3>
-                    <p className="text-sm text-slate-500 leading-relaxed">{f.desc}</p>
-                    <div className={`flex items-center gap-1 mt-4 text-xs font-semibold ${f.accent} opacity-0 group-hover:opacity-100 transition-opacity`}>
-                      Open module <ArrowRight className="w-3 h-3" />
-                    </div>
+                  <div className="w-10 h-10 rounded-2xl bg-[#1a6b3c]/8 flex items-center justify-center mb-5 group-hover:bg-[#1a6b3c]/12 transition-colors">
+                    <Icon className="w-5 h-5 text-[#1a6b3c]" />
+                  </div>
+                  <h3 className="text-[15px] font-semibold text-slate-900 mb-2 tracking-tight">{f.title}</h3>
+                  <p className="text-[13px] text-slate-500 leading-relaxed">{f.desc}</p>
+                  <div className="flex items-center gap-1.5 mt-5 text-[11px] font-semibold text-[#1a6b3c] opacity-0 group-hover:opacity-100 transition-opacity translate-x-0 group-hover:translate-x-0.5 duration-200">
+                    Open module <ArrowRight className="w-3 h-3" />
                   </div>
                 </Link>
               );
             })}
 
+            {/* Dashboard tile */}
             <Link
               href="/dashboard"
-              className="btn-grad group relative rounded-2xl border border-emerald-700/50 p-6 overflow-hidden"
+              className="btn-grad group relative rounded-3xl border border-emerald-800/30 p-7 overflow-hidden"
             >
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.07),transparent)]" />
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.09),transparent)]" />
               <div className="relative">
-                <div className="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center mb-4">
+                <div className="w-10 h-10 rounded-2xl bg-white/15 flex items-center justify-center mb-5">
                   <BarChart3 className="w-5 h-5 text-white" />
                 </div>
-                <h3 className="text-base font-semibold text-white mb-2">Full Dashboard</h3>
-                <p className="text-sm text-emerald-200/80 leading-relaxed">
+                <h3 className="text-[15px] font-semibold text-white mb-2 tracking-tight">Full Dashboard</h3>
+                <p className="text-[13px] text-emerald-200/70 leading-relaxed">
                   All metrics, alerts, and compliance status in a single view.
                 </p>
-                <div className="flex items-center gap-1 mt-4 text-xs font-semibold text-white">
+                <div className="flex items-center gap-1.5 mt-5 text-[11px] font-semibold text-white/80">
                   Open dashboard <ArrowRight className="w-3 h-3" />
                 </div>
               </div>
@@ -323,37 +313,38 @@ export default function Landing() {
       </section>
 
       {/* Compliance Pillars */}
-      <section className="bg-slate-900 py-24 px-6 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_90%_70%_at_50%_50%,rgba(26,107,60,0.08),transparent)]" />
+      <section className="bg-slate-950 py-28 px-6 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_50%,rgba(26,107,60,0.07),transparent)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_40%_at_80%_20%,rgba(13,148,136,0.05),transparent)]" />
         <div className="max-w-6xl mx-auto relative">
-          <div className="text-center mb-14">
-            <p className="text-xs font-mono text-emerald-400 uppercase tracking-widest mb-3">Regulatory Coverage</p>
-            <h2 className="text-3xl sm:text-4xl font-bold text-white" style={{ fontFamily: "var(--font-serif)" }}>
-              Full-spectrum compliance tracking
+          <div className="text-center mb-16">
+            <p className="text-[10px] font-mono text-emerald-400 uppercase tracking-[0.2em] mb-4">Regulatory Coverage</p>
+            <h2 className="text-4xl sm:text-5xl font-bold text-white tracking-tight" style={{ fontFamily: "var(--font-serif)" }}>
+              Full-spectrum compliance
             </h2>
-            <p className="text-slate-400 mt-3 max-w-xl mx-auto text-sm leading-relaxed">
+            <p className="text-slate-500 mt-4 max-w-md mx-auto text-[15px] leading-relaxed">
               Every major federal benefit regulation — monitored continuously, reported clearly.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {pillars.map((p) => (
               <div
                 key={p.abbr}
-                className="bg-white/4 rounded-2xl border border-white/8 p-6 hover:border-white/16 hover:bg-white/6 transition-colors"
+                className="bg-white/[0.03] rounded-3xl border border-white/[0.07] p-6 hover:border-white/12 hover:bg-white/[0.05] transition-all duration-200"
               >
-                <div className="flex items-start justify-between mb-5">
+                <div className="flex items-start justify-between mb-6">
                   <div>
-                    <p className="text-2xl font-bold text-white" style={{ fontFamily: "var(--font-mono)" }}>{p.abbr}</p>
-                    <p className="text-[10px] text-slate-500 mt-0.5 leading-tight max-w-[120px]">{p.name}</p>
+                    <p className="text-2xl font-bold text-white tracking-tight" style={{ fontFamily: "var(--font-mono)" }}>{p.abbr}</p>
+                    <p className="text-[10px] text-slate-600 mt-1 leading-tight max-w-[120px]">{p.name}</p>
                   </div>
                   <ScoreArc score={p.score} color={p.color} />
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-2.5">
                   {p.checks.map((ch, i) => (
                     <div key={i} className="flex items-start gap-2">
                       <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" style={{ color: p.color }} />
-                      <p className="text-xs text-slate-400 leading-snug">{ch}</p>
+                      <p className="text-[12px] text-slate-400 leading-snug">{ch}</p>
                     </div>
                   ))}
                 </div>
@@ -364,19 +355,19 @@ export default function Landing() {
       </section>
 
       {/* Trust strip */}
-      <section className="bg-white py-14 px-6 border-y border-slate-100">
+      <section className="bg-white py-16 px-6 border-y border-slate-100">
         <div className="max-w-5xl mx-auto">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-10">
             {trust.map((t) => {
               const Icon = t.icon;
               return (
-                <div key={t.label} className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-[#1a6b3c]/8 flex items-center justify-center flex-shrink-0">
-                    <Icon className="w-4 h-4 text-[#1a6b3c]" />
+                <div key={t.label} className="flex items-center gap-3.5">
+                  <div className="w-10 h-10 rounded-2xl bg-[#1a6b3c]/7 flex items-center justify-center flex-shrink-0">
+                    <Icon className="w-4.5 h-4.5 text-[#1a6b3c]" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-slate-900">{t.label}</p>
-                    <p className="text-xs text-slate-500">{t.sub}</p>
+                    <p className="text-[13px] font-semibold text-slate-900 tracking-tight">{t.label}</p>
+                    <p className="text-[11px] text-slate-400 mt-0.5">{t.sub}</p>
                   </div>
                 </div>
               );
@@ -386,9 +377,9 @@ export default function Landing() {
       </section>
 
       {/* CTA */}
-      <section className="bg-[#0f3d22] py-24 px-6 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_50%,rgba(34,197,94,0.08),transparent)]" />
-        <svg className="absolute inset-0 w-full h-full opacity-[0.035]" xmlns="http://www.w3.org/2000/svg">
+      <section className="bg-[#0d3a1f] py-28 px-6 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_80%_at_50%_50%,rgba(34,197,94,0.07),transparent)]" />
+        <svg className="absolute inset-0 w-full h-full opacity-[0.03]" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <pattern id="cta-grid" x="0" y="0" width="48" height="48" patternUnits="userSpaceOnUse">
               <path d="M 48 0 L 0 0 0 48" fill="none" stroke="white" strokeWidth="0.5" />
@@ -396,17 +387,20 @@ export default function Landing() {
           </defs>
           <rect width="100%" height="100%" fill="url(#cta-grid)" />
         </svg>
-        <div className="relative max-w-3xl mx-auto text-center">
-          <p className="text-xs font-mono text-emerald-400 uppercase tracking-widest mb-4">ALLETE Benefits Team</p>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4" style={{ fontFamily: "var(--font-serif)" }}>
-            Your compliance platform is ready
+        <div className="relative max-w-2xl mx-auto text-center">
+          <p className="text-[10px] font-mono text-emerald-400/80 uppercase tracking-[0.2em] mb-5">ALLETE Benefits Team</p>
+          <h2
+            className="text-4xl sm:text-5xl font-bold text-white mb-5 tracking-tight"
+            style={{ fontFamily: "var(--font-serif)" }}
+          >
+            Your compliance platform<br className="hidden sm:block" /> is ready
           </h2>
-          <p className="text-emerald-200/60 text-sm leading-relaxed mb-10 max-w-lg mx-auto">
-            Audit, enroll, report, and monitor — all without switching between spreadsheets, carrier portals, or email threads.
+          <p className="text-emerald-200/50 text-[15px] leading-relaxed mb-10 max-w-sm mx-auto">
+            Audit, enroll, report, and monitor — without spreadsheets, carrier portals, or email threads.
           </p>
           <Link
             href="/dashboard"
-            className="btn-grad-cta inline-flex items-center gap-2.5 px-8 py-4 text-[#0f3d22] font-bold rounded-xl text-sm shadow-xl shadow-black/30"
+            className="btn-grad-cta inline-flex items-center gap-2.5 px-8 py-4 text-[#0d3a1f] font-bold rounded-2xl text-sm shadow-2xl shadow-black/40"
           >
             Launch Dashboard <ArrowRight className="w-4 h-4" />
           </Link>
@@ -414,10 +408,18 @@ export default function Landing() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-slate-900 border-t border-white/6 py-8 px-6">
+      <footer className="bg-slate-950 border-t border-white/5 py-9 px-6">
         <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-4">
-          <span className="text-xs text-slate-500 font-medium">TMR Benefits · ALLETE Internal Platform</span>
-          <p className="text-xs text-slate-600 font-mono">Plan Year 2026</p>
+          <div>
+            <span className="text-[13px] font-semibold text-slate-400">TMR Benefits</span>
+            <span className="text-slate-700 mx-2">·</span>
+            <span className="text-[12px] text-slate-600">ALLETE Internal Platform</span>
+          </div>
+          <div className="flex items-center gap-4">
+            <p className="text-[11px] text-slate-700 font-mono">Troy Michael Rasch</p>
+            <span className="text-slate-800">·</span>
+            <p className="text-[11px] text-slate-700 font-mono">Plan Year 2026</p>
+          </div>
         </div>
       </footer>
     </div>
