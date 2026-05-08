@@ -364,6 +364,146 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* Infographic */}
+      <section className="bg-[#001a2e] py-24 px-6 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_70%_at_20%_50%,rgba(0,121,190,0.10),transparent)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_50%_at_80%_50%,rgba(0,176,202,0.07),transparent)]" />
+        <div className="max-w-6xl mx-auto relative">
+
+          <div className="text-center mb-14">
+            <p className="text-[10px] font-mono text-[#00B0CA] uppercase tracking-[0.2em] mb-3">Compliance Visibility</p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight" style={{ fontFamily: "var(--font-serif)" }}>
+              Plan Year 2026 at a glance
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 items-center">
+
+            {/* Multi-ring arc */}
+            <div className="lg:col-span-2 flex flex-col items-center">
+              <div className="relative w-60 h-60">
+                <svg viewBox="0 0 200 200" className="w-full h-full">
+                  {/* Track rings */}
+                  {[90, 74, 58, 42].map((r) => (
+                    <circle key={r} cx="100" cy="100" r={r} fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="9" />
+                  ))}
+                  {/* FMLA — outer */}
+                  <circle cx="100" cy="100" r="90" fill="none" stroke="#1a6b3c" strokeWidth="9"
+                    strokeLinecap="round" strokeDasharray={`${2*Math.PI*90*0.97} ${2*Math.PI*90}`}
+                    transform="rotate(-90 100 100)" />
+                  {/* ERISA */}
+                  <circle cx="100" cy="100" r="74" fill="none" stroke="#0079BE" strokeWidth="9"
+                    strokeLinecap="round" strokeDasharray={`${2*Math.PI*74*0.98} ${2*Math.PI*74}`}
+                    transform="rotate(-90 100 100)" />
+                  {/* ACA */}
+                  <circle cx="100" cy="100" r="58" fill="none" stroke="#00B0CA" strokeWidth="9"
+                    strokeLinecap="round" strokeDasharray={`${2*Math.PI*58*0.91} ${2*Math.PI*58}`}
+                    transform="rotate(-90 100 100)" />
+                  {/* COBRA — inner */}
+                  <circle cx="100" cy="100" r="42" fill="none" stroke="#f59e0b" strokeWidth="9"
+                    strokeLinecap="round" strokeDasharray={`${2*Math.PI*42*0.82} ${2*Math.PI*42}`}
+                    transform="rotate(-90 100 100)" />
+                  {/* Center score */}
+                  <text x="100" y="93" textAnchor="middle" fill="white" fontSize="30" fontWeight="bold" fontFamily="monospace">94</text>
+                  <text x="100" y="110" textAnchor="middle" fill="rgba(148,163,184,0.75)" fontSize="10" fontFamily="monospace">overall</text>
+                </svg>
+              </div>
+
+              <div className="grid grid-cols-2 gap-x-8 gap-y-2.5 mt-6 w-full max-w-[220px]">
+                {[
+                  { label: "FMLA",  score: 97, color: "#1a6b3c" },
+                  { label: "ERISA", score: 98, color: "#0079BE" },
+                  { label: "ACA",   score: 91, color: "#00B0CA" },
+                  { label: "COBRA", score: 82, color: "#f59e0b" },
+                ].map((row) => (
+                  <div key={row.label} className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: row.color }} />
+                    <span className="text-[11px] text-slate-400 font-mono flex-1">{row.label}</span>
+                    <span className="text-[11px] font-bold font-mono" style={{ color: row.color }}>{row.score}%</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* 2026 Regulatory Calendar */}
+            <div className="lg:col-span-3">
+              <p className="text-[9px] font-mono text-slate-500 uppercase tracking-[0.18em] mb-5">2026 Regulatory Calendar</p>
+
+              {/* Month headers */}
+              <div className="flex mb-1.5 pl-[52px] gap-[3px]">
+                {["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"].map((m, i) => (
+                  <div key={m} className={`flex-1 text-center text-[8px] font-mono leading-none ${i === 4 ? "text-[#00B0CA]" : "text-slate-600"}`}>{m}</div>
+                ))}
+              </div>
+
+              {/* Regulation rows */}
+              <div className="space-y-[3px]">
+                {[
+                  { label: "ERISA",  color: "#0079BE", events: new Set([2,6,9])  },
+                  { label: "ACA",    color: "#00B0CA", events: new Set([0,5,11]) },
+                  { label: "COBRA",  color: "#f59e0b", events: new Set([1,5,8])  },
+                  { label: "FMLA",   color: "#1a6b3c", events: new Set([0,6])    },
+                  { label: "Enroll", color: "#a78bfa", events: new Set([9,10])   },
+                ].map((row) => (
+                  <div key={row.label} className="flex items-center gap-[3px]">
+                    <span className="w-[52px] text-[9px] font-mono text-slate-500 text-right pr-2 flex-shrink-0">{row.label}</span>
+                    {Array.from({ length: 12 }).map((_, mi) => {
+                      const active = row.events.has(mi);
+                      const now    = mi === 4;
+                      return (
+                        <div
+                          key={mi}
+                          className={`flex-1 h-7 rounded flex items-center justify-center transition-colors ${
+                            active ? "opacity-100" : now ? "bg-white/[0.04]" : "bg-white/[0.02]"
+                          }`}
+                          style={active ? { backgroundColor: `${row.color}22` } : undefined}
+                        >
+                          {active && (
+                            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: row.color }} />
+                          )}
+                          {!active && now && (
+                            <div className="w-1 h-1 rounded-full bg-white/20" />
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                ))}
+              </div>
+
+              {/* Calendar legend */}
+              <div className="flex flex-wrap gap-4 mt-5 pt-4 border-t border-white/[0.07]">
+                {[
+                  { label: "ERISA", color: "#0079BE" }, { label: "ACA", color: "#00B0CA" },
+                  { label: "COBRA", color: "#f59e0b" }, { label: "FMLA", color: "#1a6b3c" },
+                  { label: "Enrollment", color: "#a78bfa" },
+                ].map((l) => (
+                  <div key={l.label} className="flex items-center gap-1.5">
+                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: l.color }} />
+                    <span className="text-[9px] text-slate-500 font-mono">{l.label}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Stat strip */}
+              <div className="grid grid-cols-3 gap-3 mt-6">
+                {[
+                  { value: "18",    label: "Deadlines tracked", color: "#0079BE" },
+                  { value: "54d",   label: "Next filing",       color: "#f59e0b" },
+                  { value: "1,842", label: "Active employees",  color: "#00B0CA" },
+                ].map((s) => (
+                  <div key={s.label} className="bg-white/[0.03] rounded-xl border border-white/[0.06] p-3 text-center">
+                    <p className="text-lg font-bold font-mono leading-none" style={{ color: s.color }}>{s.value}</p>
+                    <p className="text-[9px] text-slate-500 mt-1 leading-tight">{s.label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
       {/* Compliance Pillars */}
       <section className="bg-[#002b49] py-28 px-6 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_50%,rgba(0,121,190,0.12),transparent)]" />
