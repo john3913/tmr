@@ -236,47 +236,28 @@ export default function Landing() {
               <p className="text-[10px] text-[#0079BE] mt-1 font-semibold">+14 this month</p>
             </div>
 
-            {/* Compliance Score — gradient arc + sub-score bars */}
+            {/* Compliance Score — arc graphic + uniform number */}
             <div className="bg-white/55 backdrop-blur-md rounded-2xl border border-white/75 p-5 text-left shadow-sm shadow-slate-400/10">
-              <div className="flex items-start gap-2.5 mb-3">
-                <div className="relative w-11 h-11 flex-shrink-0">
-                  <svg viewBox="0 0 44 44" className="w-full h-full -rotate-90">
-                    <defs>
-                      <linearGradient id="arc-g" x1="0" y1="0" x2="44" y2="44" gradientUnits="userSpaceOnUse">
-                        <stop offset="0%" stopColor="#1a6b3c" />
-                        <stop offset="100%" stopColor="#0079BE" />
-                      </linearGradient>
-                    </defs>
-                    <circle cx="22" cy="22" r="17" fill="none" stroke="#e0eaf6" strokeWidth="4" />
-                    <circle cx="22" cy="22" r="17" fill="none" stroke="url(#arc-g)" strokeWidth="4"
-                      strokeLinecap="round"
-                      strokeDasharray={`${2 * Math.PI * 17 * 0.94} ${2 * Math.PI * 17}`} />
-                  </svg>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-[10px] font-bold text-slate-800">94</span>
-                  </div>
-                </div>
-                <div className="min-w-0 flex-1">
-                  <p className="text-2xl font-bold bg-gradient-to-r from-[#1a6b3c] to-[#0079BE] bg-clip-text text-transparent leading-none" style={{ fontFamily: "var(--font-mono)" }}>94%</p>
-                  <p className="text-[11px] text-slate-600 mt-0.5 font-medium">Compliance Score</p>
-                  <p className="text-[9px] text-emerald-600 mt-0.5 font-semibold">+2.1% vs last qtr</p>
+              <div className="relative w-11 h-11 mb-4">
+                <svg viewBox="0 0 44 44" className="w-full h-full -rotate-90">
+                  <defs>
+                    <linearGradient id="arc-g" x1="0" y1="0" x2="44" y2="44" gradientUnits="userSpaceOnUse">
+                      <stop offset="0%" stopColor="#1a6b3c" />
+                      <stop offset="100%" stopColor="#0079BE" />
+                    </linearGradient>
+                  </defs>
+                  <circle cx="22" cy="22" r="17" fill="none" stroke="#e0eaf6" strokeWidth="4" />
+                  <circle cx="22" cy="22" r="17" fill="none" stroke="url(#arc-g)" strokeWidth="4"
+                    strokeLinecap="round"
+                    strokeDasharray={`${2 * Math.PI * 17 * 0.94} ${2 * Math.PI * 17}`} />
+                </svg>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-[10px] font-bold text-slate-800">94</span>
                 </div>
               </div>
-              <div className="flex gap-1">
-                {([
-                  { l: "ERISA", v: 98, c: "#1a6b3c" },
-                  { l: "ACA",   v: 91, c: "#0079BE" },
-                  { l: "COBRA", v: 82, c: "#f59e0b" },
-                  { l: "FMLA",  v: 97, c: "#1a6b3c" },
-                ] as { l: string; v: number; c: string }[]).map((s) => (
-                  <div key={s.l} className="flex-1">
-                    <div className="h-[3px] bg-[#e0eaf6] rounded-full overflow-hidden mb-[3px]">
-                      <div className="h-full rounded-full" style={{ width: `${s.v}%`, backgroundColor: s.c }} />
-                    </div>
-                    <p className="text-[7px] text-slate-400 font-mono text-center leading-none">{s.l}</p>
-                  </div>
-                ))}
-              </div>
+              <p className="text-3xl font-bold bg-gradient-to-r from-[#1a6b3c] to-[#0079BE] bg-clip-text text-transparent" style={{ fontFamily: "var(--font-mono)" }}>94%</p>
+              <p className="text-xs text-slate-600 mt-1 font-medium">Compliance Score</p>
+              <p className="text-[10px] text-emerald-600 mt-1 font-semibold">+2.1% vs last qtr</p>
             </div>
 
             {/* Benefit Plans — named chips */}
