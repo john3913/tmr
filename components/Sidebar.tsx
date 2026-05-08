@@ -9,7 +9,6 @@ import {
   Building2,
   FileBarChart2,
   Settings,
-  Zap,
 } from "lucide-react";
 
 const nav = [
@@ -27,14 +26,9 @@ export default function Sidebar() {
     <aside className="w-60 flex-shrink-0 bg-white border-r border-slate-200 flex flex-col h-screen sticky top-0">
       {/* Logo */}
       <div className="px-5 py-5 border-b border-slate-200">
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-[#1a6b3c] flex items-center justify-center">
-            <Zap className="w-4 h-4 text-white" />
-          </div>
-          <div>
-            <p className="text-sm font-bold text-slate-900 leading-tight">TMR Benefits</p>
-            <p className="text-[10px] text-slate-500 leading-tight uppercase tracking-wide">ALLETE Compliance</p>
-          </div>
+        <div>
+          <p className="text-sm font-bold text-slate-900 leading-tight">TMR Benefits</p>
+          <p className="text-[10px] text-slate-500 leading-tight uppercase tracking-wide">ALLETE Compliance</p>
         </div>
       </div>
 
