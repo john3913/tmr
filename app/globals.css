@@ -16,3 +16,34 @@ body {
   background: var(--background);
   color: var(--foreground);
 }
+
+@keyframes grad-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.btn-grad {
+  background: linear-gradient(-55deg, #1a6b3c, #0d9488, #15803d, #059669, #0d9488, #1a6b3c);
+  background-size: 350% 350%;
+  animation: grad-shift 5s ease infinite;
+}
+
+.btn-grad-cta {
+  background: linear-gradient(-55deg, #ffffff, #f0fdf4, #ecfdf5, #f0fdf4, #ffffff);
+  background-size: 350% 350%;
+  animation: grad-shift 5s ease infinite;
+}
+
+.btn-grad-outline {
+  background: linear-gradient(-55deg, #f8fafc, #f0fdf4, #f8fafc, #ecfdf5, #f8fafc);
+  background-size: 350% 350%;
+  animation: grad-shift 6s ease infinite;
+  border-color: transparent;
+  box-shadow: inset 0 0 0 1.5px #d1d5db;
+  transition: box-shadow 0.2s;
+}
+
+.btn-grad-outline:hover {
+  box-shadow: inset 0 0 0 1.5px #1a6b3c;
+}

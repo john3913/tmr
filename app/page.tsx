@@ -138,7 +138,7 @@ export default function Landing() {
         <div className="ml-auto">
           <Link
             href="/dashboard"
-            className="flex items-center gap-2 px-4 py-1.5 bg-[#1a6b3c] hover:bg-[#155c32] text-white text-xs font-semibold rounded-lg transition-colors"
+            className="btn-grad flex items-center gap-2 px-4 py-1.5 text-white text-xs font-semibold rounded-lg"
           >
             Launch App <ArrowRight className="w-3 h-3" />
           </Link>
@@ -176,13 +176,13 @@ export default function Landing() {
           <div className="flex flex-wrap items-center justify-center gap-4 mb-16">
             <Link
               href="/dashboard"
-              className="flex items-center gap-2.5 px-7 py-3.5 bg-[#1a6b3c] hover:bg-[#155c32] text-white font-semibold rounded-xl transition-colors text-sm shadow-md shadow-[#1a6b3c]/20"
+              className="btn-grad flex items-center gap-2.5 px-7 py-3.5 text-white font-semibold rounded-xl text-sm shadow-md shadow-[#1a6b3c]/20"
             >
               Launch Dashboard <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
               href="/audit"
-              className="flex items-center gap-2.5 px-7 py-3.5 border border-slate-200 hover:border-slate-300 text-slate-600 hover:text-slate-900 font-semibold rounded-xl transition-colors text-sm bg-white/60"
+              className="btn-grad-outline flex items-center gap-2.5 px-7 py-3.5 text-slate-700 hover:text-[#1a6b3c] font-semibold rounded-xl text-sm"
             >
               View Audit Status
             </Link>
@@ -241,7 +241,7 @@ export default function Landing() {
 
             <Link
               href="/dashboard"
-              className="group relative bg-[#1a6b3c] rounded-2xl border border-emerald-700/50 p-6 hover:bg-[#155c32] transition-colors overflow-hidden"
+              className="btn-grad group relative rounded-2xl border border-emerald-700/50 p-6 overflow-hidden"
             >
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.07),transparent)]" />
               <div className="relative">
@@ -345,7 +345,7 @@ export default function Landing() {
           </p>
           <Link
             href="/dashboard"
-            className="inline-flex items-center gap-2.5 px-8 py-4 bg-white text-[#0f3d22] font-bold rounded-xl hover:bg-emerald-50 transition-colors text-sm shadow-xl shadow-black/30"
+            className="btn-grad-cta inline-flex items-center gap-2.5 px-8 py-4 text-[#0f3d22] font-bold rounded-xl text-sm shadow-xl shadow-black/30"
           >
             Launch Dashboard <ArrowRight className="w-4 h-4" />
           </Link>
